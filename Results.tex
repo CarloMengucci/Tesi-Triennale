@@ -12,14 +12,19 @@
 
 
 \begin{document}
+\chapter{Supervised Learning e Metodi Statistici}
 
+\section{Introduzione al Supervised Learning}
+La scienza delle predizioni, o data learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
 
+In un tipico scenario di apprendimento supervisionato abbiamo un valore di \textit{outcome}, generalmente quantitativo (come ad esempio una quotazione finanziaria) o categorico (come ad esempio una discriminante situazionale del tipo infarto/non infarto), che si vuole predire in base ad un set \textit{features} (ad esempio dati clinici).
+Avendo a disposizione un \textit{training set} di dati, dei quali è possibile osservare outcome e features per un insieme di oggetti (ad esempio una popolazione), è dunque 
 \chapter{Valutazione degli effetti di troncatura deterministica per popolazioni sintetiche}
 
 \section{Introduzione al Problema}
 L'utilizzo di database spesso composti su un intervallo discreto di una data popolazione, frequentemente selezionato tramite criteri che possiamo definire "deterministici" (un intervallo di età ad esempio, o in generale un certo range di valori disponibile al momento dell'acquisizione), si contrappone all'esigenza di ottenere un modello di validità generale in termini di coefficienti delle variabili e di interazione fra esse.
 
-Non è pertanto possibile elaborare un risultato di questo tipo senza tenere conto di un'analisi quantativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello sotto forma di stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
+Non è pertanto possibile elaborare un risultato di questo tipo senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello sotto forma di stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
 
 I risultati di seguito riportati si riferiscono ad interpolazioni di tipo lineare, elaborate attraverso metodi di machine learning quali cross-validation e boot-strapping.
 
