@@ -17,8 +17,30 @@
 \section{Introduzione al Supervised Learning}
 La scienza delle predizioni, o data learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
 
-In un tipico scenario di apprendimento supervisionato abbiamo un valore di \textit{outcome}, generalmente quantitativo (come ad esempio una quotazione finanziaria) o categorico (come ad esempio una discriminante situazionale del tipo infarto/non infarto), che si vuole predire in base ad un set \textit{features} (ad esempio dati clinici).
+In un tipico scenario di apprendimento supervisionato è presente un valore di \textit{outcome}, generalmente quantitativo (come ad esempio una quotazione finanziaria) o categorico (come ad esempio una discriminante situazionale del tipo infarto/non infarto), che si vuole predire in base ad un set \textit{features} (ad esempio dati clinici).
 Avendo a disposizione un \textit{training set} di dati, dei quali è possibile osservare outcome e features per un insieme di oggetti (ad esempio una popolazione), è dunque opportuno costruire un modello predittivo, o \textit{learner}, il quale permetterà di valutare l'outcome per oggetti ignoti.
+
+Una situazione di questo tipo è detta di \textit{Supervised Learning} in quanto è la presenza della variabile di outcome a guidare l'intero processo di apprendimento.
+Introducendo un linguaggio più vicino al \textit{machine learning}, è possibile schematizzare il problema nel seguente semplice modo: si ha a che fare con un set di variabili in \textit{input}, generalmente misurate o note a priori, le quali influenzano uno o più \textit{outputs}; l'obiettivo è l'utilizzo degli input per la previsione dei valori in output.
+
+\section{Metodi di Maximum Likelyhood e Interpolazioni Lineari}
+Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelyhoood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
+
+La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
+Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}).
+Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}.
+
+Per gli scopi dell'analisi effettuata per la produzione dei risultati relativi a questo lavoro, è opportuna una trattazione analitica più dettagliata di quest'ultimo metodo.
+
+\subsection{Regressione Lineare e Minimi Quadrati}
+
+
+
+
+
+
+ 
+
 \chapter{Valutazione degli effetti di troncatura deterministica per popolazioni sintetiche}
 
 \section{Introduzione al Problema}
