@@ -30,11 +30,14 @@ La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovu
 Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}).
 Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}.
 
-Per gli scopi dell'analisi effettuata per la produzione dei risultati relativi a questo lavoro, è opportuna una trattazione analitica più dettagliata di quest'ultimo metodo.
+Per gli scopi del processo utilizzato nella produzione dei risultati relativi a questo lavoro, è opportuna una trattazione analitica più dettagliata di quest'ultimo metodo.
 
-\subsection{Regressione Lineare e Minimi Quadrati}
+\subsection{Modelli Lineari e Minimi Quadrati}
+Il modello lineare è uno dei capisaldi delle analisi statistiche ed anche in ambito di machine learning costituisce un potente strumento d'indagine.
+Si giustificherà infatti in questa sezione il fatto che sia possibile ottenere risultati adeguati e facilmente interpretabili anche avendo a disposizione piccoli datasets o in presenza di un basso rapporto segnale-rumore, rendendo dunque il modello lineare altamente performante in termini di capacità predittiva anche in confronto a modelli più analiticamente complessi.
 
-
+Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello \[\hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}\] dove il termin $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
+Al fine di creare una notazione più compatta possiamo includere la variabile costante $1$ in $X$ e $\hat{\beta_0}$ in $\hat{\beta}$, vettore dei coefficienti associati. Avremo ora la seguente formulazione per il modello \[\hat{Y}=X^T\hat{\beta}\] dove $X^T$ denota il vettore o la matrice trasposta (essendo $X$ un vettore colonna).
 
 
 
