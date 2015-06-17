@@ -36,8 +36,17 @@ Per gli scopi del processo utilizzato nella produzione dei risultati relativi a 
 Il modello lineare è uno dei capisaldi delle analisi statistiche ed anche in ambito di machine learning costituisce un potente strumento d'indagine.
 Si giustificherà infatti in questa sezione il fatto che sia possibile ottenere risultati adeguati e facilmente interpretabili anche avendo a disposizione piccoli datasets o in presenza di un basso rapporto segnale-rumore, rendendo dunque il modello lineare altamente performante in termini di capacità predittiva anche in confronto a modelli più analiticamente complessi.
 
-Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello \[\hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}\] dove il termin $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
+Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello \[\hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}\] dove il termine $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
 Al fine di creare una notazione più compatta possiamo includere la variabile costante $1$ in $X$ e $\hat{\beta_0}$ in $\hat{\beta}$, vettore dei coefficienti associati. Avremo ora la seguente formulazione per il modello \[\hat{Y}=X^T\hat{\beta}\] dove $X^T$ denota il vettore o la matrice trasposta (essendo $X$ un vettore colonna).
+
+Nell'occorrenza in cui l'output sia unico $Y$ sarà uno scalare; in generale può però consistere di un vettore \textit{K-dimensionale}, nel qual caso $\beta$ assumerebbe la forma di una matrice di coefficienti a dimensione $n\times K$.
+
+Vedendola come funzione nello spazio \textit{n-dimensionale} degli input $f(X)=X^T\beta$ è lineare ed il gradiente $f'(X)=\beta$ è un vettore dello spazio degli input con direzione e verso concordi con la direzione di massima pendenza.
+
+
+
+
+
 
 
 
