@@ -23,7 +23,7 @@ Avendo a disposizione un \textit{training set} di dati, dei quali è possibile o
 Una situazione di questo tipo è detta di \textit{Supervised Learning} in quanto è la presenza della variabile di outcome a guidare l'intero processo di apprendimento.
 Introducendo un linguaggio più vicino al \textit{machine learning}, è possibile schematizzare il problema nel seguente semplice modo: si ha a che fare con un set di variabili in \textit{input}, generalmente misurate o note a priori, le quali influenzano uno o più \textit{outputs}; l'obiettivo è l'utilizzo degli input per la previsione dei valori in output.
 
-\section{Metodi di Maximum Likelyhood e Interpolazioni Lineari}
+\section{Interpolazioni Lineari e Metodi di Maximum Likelyhood}
 Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelyhoood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
 
 La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
@@ -42,6 +42,28 @@ Al fine di creare una notazione più compatta possiamo includere la variabile co
 Nell'occorrenza in cui l'output sia unico $Y$ sarà uno scalare; in generale può però consistere di un vettore \textit{K-dimensionale}, nel qual caso $\beta$ assumerebbe la forma di una matrice di coefficienti a dimensione $n\times K$.
 
 Vedendola come funzione nello spazio \textit{n-dimensionale} degli input $f(X)=X^T\beta$ è lineare ed il gradiente $f'(X)=\beta$ è un vettore dello spazio degli input con direzione e verso concordi con la direzione di massima pendenza.
+
+Per il fitting del modello lineare su un training set di dati, verrà analizzato il metodo detto dei \textit{minimi quadrati}.
+Questo approccio ha come obiettivo quello di trovare i coefficienti $\beta$ che minimizzano la \textit{somma quadratica dei residui}, definita da \[RSS(\beta)=\sum_{j=1}^{N}(y_i-x_i^T\beta)^2\]
+
+La funzione $RSS(\beta)$ è una funzione quadratica dei parametri; essa ammette sempre dunque un minimo, ma non è scontata l'unicità di quest'ultimo.
+Utilizzando un'agevole notazione matriciale per caratterizzare la soluzione abbiamo
+\[RSS(\beta)=(\textbf{y}-\textbf{X}\beta)^T(\textbf{y}-\textbf{X}\beta)\]
+dove \textbf{X} è una matrice $N \times n$ le cui righe sono vettori di input e \textbf{y} è un vettore \textit{N-dimensionale} di outputs nel training set.
+
+Differenziando per $\beta$ si ottiene l'\textit{equazione normale}
+\[\textbf{X}^T(\textbf{y}-\textbf{X}\beta)=0\]
+nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione unica è data da
+\[\hat{\beta}=(\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T\textbf{y}\]
+il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$.
+
+L'ipotesi che i residui seguano una distribuzione normale, fa sì che i minimi quadrati coincidano esattamente con la funzione di \textit{maximum likelyhood} risolta \textit{analiticamente} per il caso lineare.
+
+E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo. 
+Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
+
+\subsection{Maximum Likelyhood per Distribuzioni Normali Troncate}
+
 
 
 
