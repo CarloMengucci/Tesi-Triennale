@@ -65,8 +65,44 @@ Nella prossima sezione si giustificherà il fatto che i minimi quadrati non sian
 \subsection{Maximum Likelihood per Distribuzioni Normali Troncate}
 L'ipotesi strutturale sulla distribuzione dei residui necessaria, per l'assunzione dei minimi quadrati come funzione di massima verosimiglianza, viene meno nel caso in cui si ha a che fare con una Gaussiana troncata.
 
-In generale si ha infatti un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(.)$ non è nota. 
-E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(.|\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(.|\theta)$.
+In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(.)$ non è nota. 
+E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(.|\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(.|\theta_0)$. 
+Il valore $\theta_0$ non è noto ed è il \textit{valore vero} del vettore dei parametri.
+E' necessario trovare un estimatore $\hat{\theta}$ il più vicino possibile al valore $\theta_0$. 
+
+Per utilizzare il metodo di massima verosimiglianza, si procede specificando la \textit{funzione di densità complessiva} per tutte le osservazioni.
+Per un campionamento indipendente e distribuito identicamente si ha
+\[ f(x_1,x_2,\ldots,x_n\mid\theta) = f(x_1|\theta)\times f(x_2|\theta) \times \cdots \times  f(x_n|\theta)\]
+Considerando le osservazioni $x_1,x_3,..,x_n$ come parametri fissati della funzione, $\theta$ assumerà il ruolo di variabile arbitraria; è così possibile introdurre la \textit{funzione di verosimiglianza}
+\[ \mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = f(x_1,x_2,\ldots,x_n\mid\theta) = \prod_{i=1}^n f(x_i\mid\theta)\]
+Da un punto di vista puramente operativo è conveniente utilizzare il logaritmo della funzione di verosimiglianza (\textit{log-likelihood})
+ \[\ln\mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = \sum_{i=1}^n \ln f(x_i\mid\theta)\]
+e considerare il \textit{log-likelihood medio}
+\[\hat\ell = \frac1n \ln\mathcal{L}\]
+
+La notazione $\hat\ell$ non è affatto casuale: essa assimila il termine ad un estimatore, cosa che in effetti $\hat\ell$ è in quanto indice di verosimiglianza logaritmica attesa per la singola osservazione.
+
+Il metodo di massima verosimiglianza stima dunque $\theta_0$ a partire da un valore $\theta$ che massimizza $\hat\ell(\theta,x)$.
+
+Il metodo definisce così un \textit{Maximum-Likelihood Estimator (\textbf{MLE}) } per $\theta_0$
+\[\{ \hat\theta_\mathrm{mle}\} \subseteq \{ \underset{\theta\in\Theta}{\operatorname{arg\,max}}\ \hat\ell(\theta\,;\,x_1,\ldots,x_n) \}\]
+La massimizzazione della log-likelihood è equivalente a quella della likelihood vera e propria, essendo il logaritmo una funziona monotona strettamente crescente.
+
+Per la maggior parte dei modelli, può essere trovato un MLE sotto forma di funzione esplicita dei dati osservati $x_1,x_3,..,x_n$.
+Qualora non fosse possibile una trattazione analitica della soluzione di massimizzazione, si utilizzano metodi numerici di ottimizzazione per il MLE.
+
+E' ora necessario un approccio specifico al calcolo dell'estimatore di massima verosimiglianza nel caso in cui il campionamento segua un andamento equiparabile a quello di una Gaussiana troncata.
+
+  
+
+
+
+
+  
+  
+  
+
+  
 
 
 
