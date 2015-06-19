@@ -93,6 +93,8 @@ Qualora non fosse possibile una trattazione analitica della soluzione di massimi
 
 E' ora necessario un approccio specifico al calcolo dell'estimatore di massima verosimiglianza nel caso in cui il campionamento segua un andamento equiparabile a quello di una Gaussiana troncata.
 
+
+
   
 
 
@@ -121,9 +123,12 @@ E' ora necessario un approccio specifico al calcolo dell'estimatore di massima v
 \section{Introduzione al Problema}
 L'utilizzo di database spesso composti su un intervallo discreto di una data popolazione, frequentemente selezionato tramite criteri che possiamo definire "deterministici" (un intervallo di età ad esempio, o in generale un certo range di valori disponibile al momento dell'acquisizione), si contrappone all'esigenza di ottenere un modello di validità generale in termini di coefficienti delle variabili e di interazione fra esse.
 
-Non è pertanto possibile elaborare un risultato di questo tipo senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello sotto forma di stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
+Nella sezione precedente è stato inoltre dimostrato come la presenza di un troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido. 
+Una conseguenza inevitabile di ciò è una propagazione dell'errore anche nell'ambito di attribuzione dello score dei modelli ipotetici, poiché avremo una valutazione della bontà di previsione sotto forma di $R^2$ riferita ad un metodo il cui limite di validità è trasceso.
 
-I risultati di seguito riportati si riferiscono ad interpolazioni di tipo lineare, elaborate attraverso metodi di machine learning quali cross-validation e boot-strapping.
+Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere generale senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello come di stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
+
+I risultati di seguito riportati si riferiscono ad interpolazioni di tipo lineare, elaborate attraverso metodi di machine learning quali cross-validation e boot-strapping (precedentemente descritti).
 
 \section{Metodi di Elaborazione}
 \subsection {Generazione delle popolazioni e Data Structures}
