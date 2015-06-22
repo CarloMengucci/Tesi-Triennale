@@ -62,7 +62,7 @@ L'ipotesi che i residui seguano una distribuzione normale, fa sì che i minimi q
 E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo. 
 Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
 
-\subsection{Maximum Likelihood per Distribuzioni Normali Troncate}
+\subsection{Maximum Likelihood e Distribuzioni Normali Troncate}
 L'ipotesi strutturale sulla distribuzione dei residui necessaria, per l'assunzione dei minimi quadrati come funzione di massima verosimiglianza, viene meno nel caso in cui si ha a che fare con una Gaussiana troncata.
 
 In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(.)$ non è nota. 
@@ -91,14 +91,9 @@ La massimizzazione della log-likelihood è equivalente a quella della likelihood
 Per la maggior parte dei modelli, può essere trovato un MLE sotto forma di funzione esplicita dei dati osservati $x_1,x_3,..,x_n$.
 Qualora non fosse possibile una trattazione analitica della soluzione di massimizzazione, si utilizzano metodi numerici di ottimizzazione per il MLE.
 
-E' ora necessario un approccio specifico al calcolo dell'estimatore di massima verosimiglianza nel caso in cui il campionamento segua un andamento equiparabile a quello di una Gaussiana troncata.
+Il problema dello slicing deterministico dei dati che questo lavoro si propone di affrontare, rende inevitabile la trattazione della distribuzione Gaussiana troncata.
 
-
-
-  
-
-
-
+A partire dalla formulazione della sua particolare \textit{funzione di densità di probabilità} sarà possibile giustificare l'impossibilità di definire una soluzione analitica per questo tipo di distribuzioni.
 
   
   
