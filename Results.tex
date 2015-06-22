@@ -65,8 +65,8 @@ Nella prossima sezione si giustificherà il fatto che i minimi quadrati non sian
 \subsection{Maximum Likelihood e Distribuzioni Normali Troncate}
 L'ipotesi strutturale sulla distribuzione dei residui necessaria, per l'assunzione dei minimi quadrati come funzione di massima verosimiglianza, viene meno nel caso in cui si ha a che fare con una Gaussiana troncata.
 
-In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(.)$ non è nota. 
-E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(.|\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(.|\theta_0)$. 
+In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(\cdot)$ non è nota. 
+E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(\cdot |\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(\cdot |\theta_0)$. 
 Il valore $\theta_0$ non è noto ed è il \textit{valore vero} del vettore dei parametri.
 E' necessario trovare un estimatore $\hat{\theta}$ il più vicino possibile al valore $\theta_0$. 
 
@@ -94,6 +94,23 @@ Qualora non fosse possibile una trattazione analitica della soluzione di massimi
 Il problema dello slicing deterministico dei dati che questo lavoro si propone di affrontare, rende inevitabile la trattazione della distribuzione Gaussiana troncata.
 
 A partire dalla formulazione della sua particolare \textit{funzione di densità di probabilità} sarà possibile giustificare l'impossibilità di definire una soluzione analitica per questo tipo di distribuzioni.
+
+Supponiamo infatti che  $X \sim N(\mu, \sigma^{2}) \!$ abbia una distribuzione normale e sia confinata nell'intervallo $ X \in (a,b), \; -\infty \leq a < b \leq \infty $. 
+L'aggiunta di queste  condizioni rende la distribuzione $X$ una \textit{Gaussiana troncata} nell'intervallo
+$a<X<b$.
+
+La sua funzione di densità di probabilità $f$ per $a\leq x \leq b$ assumerà dunque la forma
+\[
+f(x;\mu,\sigma,a,b) = \frac{\phi(\frac{x - \mu}{\sigma})}{\Phi(\frac{b - \mu}{\sigma}) - \Phi(\frac{a - \mu}{\sigma}) }{.}\frac{1}{\sigma}
+\]
+ed $f=0$ al di fuori dell'intervallo.
+
+Si ha che per $	\xi=\frac{x-\mu}{\sigma}$; ${\phi(\xi)=\frac{1}{\sqrt{2 \pi}}\exp{(-\frac{1}{2}\xi^2})} $ rappresenta la funzione di densità di probabilità della \textit{distribuzione normale standard} mentre le ${\Phi(\cdot)}$ sono le \textit{funzioni di distribuzione complessiva (cumulative distribution functions)}.
+
+La presenza delle $\Phi(\alpha),\Phi(\beta)$ con $\alpha=\frac{a-\mu}{\sigma}, \beta=\frac{b-\mu} {\sigma}$ comporta l'impossibilità di una formulazione semplice ed analiticamente definita dei parametri di massima verosimiglianza, rendendo necessaria un'ottimizzazione numerica per l'approssimazione delle soluzioni.
+Questo aspetto e la proposta di possibili metodi di soluzione sono ampiamente trattati nel paper \textit{"Regression analysis when the dependent variable is truncated normal"} di Takeshi Amemiya (\textit{Econometrica, Novembre 1976, Volume 41, Numero 6}).
+
+
 
   
   
