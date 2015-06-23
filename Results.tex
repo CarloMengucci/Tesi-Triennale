@@ -57,7 +57,67 @@ nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione uni
 \[\hat{\beta}=(\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T\textbf{y}\]
 il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$.
 
-L'ipotesi che i residui seguano una distribuzione normale, fa sì che i minimi quadrati coincidano esattamente con la funzione di \textit{maximum likelihood} risolta \textit{analiticamente} per il caso lineare.
+Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da 
+\[ S = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2\]
+
+E' possibile in tal caso esplicitare i coefficienti $a$ e $b$ come
+\[b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}\]
+\[a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}\]
+
+Le ipotesi che le osservazioni seguano una distribuzione normale, che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ , fanno sì che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
+
+Con un ragionamento più generale, assumiamo infatti di dover cercare una correlazione qualsiasi del tipo $Y=\Phi(X)$; essa dipenderà da un certo numero di parametri in modo tale che si possa scrivere
+\[Y=\Phi(X,\{\lambda_k\})\]
+
+Per la stima dei parametri $\{\lambda_k\}$ e quindi per l'adattamento della funzione $Y=\Phi(X,\{\lambda_k\})$ ai punti sperimentali introduciamo due ipotesi di partenza:
+\begin{itemize}
+\item L'incertezza su $X$ è trascurabile rispetto all'incertezza su $Y$
+\item L'incertezza su $Y$ è espressa in termini dello scarto quadratico medio di una distribuzione normale, cioè $\delta y_i=\sigma_i$
+\end{itemize}
+
+Se i parametri $\{\lambda_k\}$ della funzione $Y=\Phi(x,\{\lambda_k\})$ fossero noti, una volta fissato un valore $x_i$ della variabile indipendente $X$, la densità di probabilità di misurare un valore $y_i$ sarebbe
+\[
+f(y_i)=\frac{1}{\sigma_i \sqrt{2\pi}} exp\{- \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{2\sigma_i^2}\}
+\]
+
+Fissato un insieme di $N$ valori $x_1,..,x_N$ di $X$, la densità di probabilità di ottenere una $N-pla$ di valori $y_1,...,y_N$ tra loro indipendenti è data da una densità multivariata fattorizzabile nel prodotto delle singole densità $f(y_i)$
+\[
+g(y_1,...,y_N;\{\lambda_k\})=\prod^{N}_{i=1}\frac{1}{\sigma_i \sqrt{2\pi}} exp\{- \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{2\sigma_i^2}\}=\]
+\[
+=\frac{1}{(\prod_{i}\sigma_i)(2\pi)^{N/2}} exp\{-1/2\sum^{N}_{i=1} \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{\sigma_i^2}\}
+\]
+
+Nella realtà sono invece noti gli $N$ valori $y_i$, mentre sono incogniti i valori dei parametri $\{\lambda_k\}$.
+
+Le migliori stime dei parametri si hanno ora massimizzando $g(y_1,...,y_N;\{\lambda_k\}$ rispetto ad essi, ossia minimizzando la sommatoria che compare all'esponente dell'ultimo membro dell'equazione di cui sopra. 
+
+La sommatoria viene convenzionalmente indicata come $\chi^2$
+
+\[
+\chi^2=\sum^{N}_{i=1} \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{\sigma_i^2}\}
+\]
+
+Essendo ora noti i valori $x_i$ e $y_i$ e $\sigma_i$ è chiaro che la funzione $\chi^2$ è una funzione dei soli parametri $\{\lambda_k\}$
+\[
+\chi^2=\chi^2(\lambda_1,...,\lambda_p)
+\]
+definita in uno spazio \textit{p-dimensionale}.
+
+Per determinare i $\{\lambda_k\}$ che permettono alla funzione $\Phi(x,\{\lambda_k\})$ di adattarsi meglio ai punti sperimentali è sufficiente una minimizzazione di $\chi^2$ nello spazio \textit{p-dimensionale} dei parametri.
+
+E' importante tenere come questo tipo di trattazione non prescinda mai dal'ipotesi di normalità
+
+
+
+
+
+
+
+
+
+
+
+
 
 E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo. 
 Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
@@ -115,7 +175,9 @@ Questo lavoro si propone tuttavia di correggere i metodi lineari canonici, ampia
 In questo modo sarà possibile ottenere previsioni e risultati verosimili mantenendo la semplicità operativa propria dell'ipotesi lineare.
 A questo proposito nelle sezioni successive seguirà la descrizione dei metodi legati al \textit{Machine Learning} propriamente detto.
 
-\subsection{Train-Test Split e Corss Validation}
+\subsection{Train-Test Split e Cross Validation}
+
+
 
 
 
