@@ -107,18 +107,6 @@ Per determinare i $\{\lambda_k\}$ che permettono alla funzione $\Phi(x,\{\lambda
 
 E' importante tenere come questo tipo di trattazione non prescinda mai dal'ipotesi di normalità
 
-
-
-
-
-
-
-
-
-
-
-
-
 E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo. 
 Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
 
@@ -173,9 +161,70 @@ Questo aspetto e la proposta di possibili metodi di soluzione sono ampiamente tr
 Questo lavoro si propone tuttavia di correggere i metodi lineari canonici, ampiamente utilizzati dagli algoritmi di \textit{machine learning}, trattando la possibilità di stimare il \textit{bias} associato all'utilizzo di un MLE non analiticamente corretto. 
 
 In questo modo sarà possibile ottenere previsioni e risultati verosimili mantenendo la semplicità operativa propria dell'ipotesi lineare.
-A questo proposito nelle sezioni successive seguirà la descrizione dei metodi legati al \textit{Machine Learning} propriamente detto.
+A questo proposito nella sezione successiva seguirà la descrizione dei metodi legati al machine learning propriamente detto.
 
 \subsection{Train-Test Split e Cross Validation}
+Tra le procedure più elementari per un approccio di machine learning alla trattazione dei dati, vi è quello del cosiddetto \textit{train and test splitting}.
+
+Esso consiste nella divisione casuale del del dataset in due subsets: \textit{train set} e \textit{test set}.
+Il train set, come il nome suggerisce, è utilizzato per elaborare i parametri utilizzando il regressore scelto.
+Questi vengono poi applicati e confrontati coi dati presenti nel train set, i quali ovviamente fungendo da dati "non visti" forniscono una stima realistica della performance predittiva del regressore utilizzato, generalmente sotto forma di $R^2$
+
+Operativamente è possibile effettuare lo splitting utilizzando algoritmi di random sorting, fornendo le percentuali di dati da utilizzare come train e test; convenzionalmente si pone la percentuale del train al $70-80\%$ dell'intero dataset, a cui segue quella del test per sottrazione.
+
+Questa procedura, seppur elementare, sopperisce al problema del cosiddetto \textit{overfitting}, ossia la tendenza a creare un modello analitico che interpoli molto precisamente i dati sperimentali a scapito di una scarsa capacità predittiva.
+
+Un metodo direttamente sul train-test splitting è quello della \textit{Cross Validation}.
+Questo è probabilmente il metodo più semplice ed ampiamente utilizzato per stimare l'errore e dunque la qualità di una predizione.
+
+La cross-validation stima in maniera diretta l'errore atteso per l'analisi riferita al subsample (che possiamo assimilare ad un test set) che rimane esterno all'elaborazione dei parametri, definito come
+\[
+Err=E[L(Y,\hat{f}(X)]
+\]
+
+generalmente dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente della distribuzione correlata di $X$ e $Y$.
+
+Idealmente, avendo a disposizione un numero sufficientemente grande di dati, potremmo isolare quello che verrà chiamato \textit{validation set} ed utilizzarlo per valutare la performance del modello predittivo utilizzato.
+
+Tuttavia in generale si hanno a disposizione database non molto estesi, per cui questa procedura risulterebbe approssimativa.
+
+Per sopperire al problema, si introduce la cosiddetta \textit{K-fold cross validation}, la quale usa una parte dei dati per essere interpolati dal modello scelto e un'altra per testarne le capacità predittive.
+
+SI introduce un splitting dei dati in $K$ parti uguali; per ogni $k-esima$ parte, utilizziamo le rimanenti $k-1$ parti per il fitting del modello e sfruttiamo questa per la stima dell'errore sulla predizione.
+Per una descrizione quantitativa si introducono le funzioni seguenti.
+
+Sia $k:\{1,2,...,N\}\longmapsto\{1,...,K\}$ una funzione di indexing che indica la partizione alla quale l'\textit{i-esima} osservazione è assegnata casualmente.
+
+Sia $\hat{f}^{-k}(x)$ la funzione interpolata, calcolata avendo rimosso la \textit{k-esima} parte dei dati.
+Allora la stima dell'errore sulla predizione data dalla cross validation sarà
+\[
+CV(\hat{f})=\frac{1}{N}\sum^{N}_{i=1}L(y_i,\hat{f}^{-k(i)}(x_i))
+\]
+
+Delle scelte tipiche per $K$ sono $K=5,K=10$; il caso in cui si ponga $K=N$ la procedura prende il nome di \textit{leave-one-out cross-validation} e si avrà che $k(i)=i$, cosicché per ogni \textit{i-esima} osservazione il fit sarà calcolato su tutte le altre osservazioni eccetto la \textit{i-esima}.
+
+Dato un set di modelli $f(x,\alpha)$ indicizzati tramite il parametro di curvatura $\alpha$, si indica con $\hat{f}^{-k}(x,\alpha)$ l'$\alpha-esimo$ elaborato avendo rimosso la \textit{k-esima} parte dei dati.
+Per questo set di modelli definiamo allora
+
+\[
+CV(\hat{f}(x,\alpha))=\frac{1}{N}\sum^{N}_{i=1}L(y_i,\hat{f}^{-k(i)}(x_i,\alpha))
+\]
+
+La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul test; possiamo così trovare il parametro di \textit{tuning} $\hat{\alpha}$ che la minimizza. Il modello finale scelto per il fit completo dei dati sarà così $f(x,\hat{\alpha}$.
+
+E' interessante a questo punto commentare le capacità performative della cross validation al variare della scelta di $K$.
+
+Per $K=N$ si otterranno stime per l'errore di predizione atteso con un bias praticamente nullo, ma a causa della probabile similitudine reciproca degli $N$ training sets potrebbero presentare un'alta varianza.
+
+Al contrario per $K=5$ ad esempio la varianza sarà bassa, ma il bias potrebbe costituire un problema a causa della sua dipendenza dalla performance del metodo di learning che varia con le dimensioni di train e test sets.
+
+In sintesi, se la curva di learning ha un pendenza considerevole ad una certa dimensione di train o test set, la \textit{k-fold cross-validation} con $K=10,5$ sovrastimerà l'errore sulla predizione.
+
+Il metodo \textit{leave-one-out} ha invece in generale un basso bias ma non è esclusa la possibiità di avere una varianza considerevole.
+
+
+
+
 
 
 
