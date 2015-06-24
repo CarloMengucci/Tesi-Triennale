@@ -12,6 +12,7 @@
 
 
 \begin{document}
+\tableofcontents
 \chapter{Supervised Learning e Metodi Statistici}
 
 \section{Introduzione al Supervised Learning}
@@ -213,7 +214,7 @@ La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul
 
 \begin{figure}[!h]
 \centering
-\includegraphics[width=0.4\linewidth]{LearningCurve}
+\includegraphics[width=0.5\linewidth]{LearningCurve}
 \caption{\textit{Curva di learning ipotetica per un classificatore su una data analisi: si hanno il plot di $1-Err$ contro la dimensione $N$ del training set. Come si può notare vi sono dimensioni dei subsets per cui la cross-validation sovrastima l'errore sulla predizione, a causa della forza pendenza della curva. }}
 \label{curve}
 \end{figure}
@@ -410,6 +411,28 @@ Il processo di indagine tiene inoltre conto dei pesi effettivi che i diversi mar
 
 Una parte importante del progetto consiste dunque dell'ottimizzazione dei pesi per i marcatori utilizzando analisi multivariate.
 
+Il reclutamento delle popolazioni è avvenuto in due larghi gruppi, il primo composto da 2262 \textit{randomly recruited age-stratified individuals from the general population (RASIG)} provenienti da differenti regioni europee, in numero eguale fra uomini e donne ed a numeri simili per gruppi d'età.
+Questo gruppo è stato designato per rappresentare il tasso di invecchiamento medio di popolazione standard.
+
+Il secondo gruppo è invece comprensivo di soggetti discendenti da rami familiari longevi, definiti \textit{Geha Offspring (GO)} e con età nel range dei 55-74 anni.
+Ciò per confermare le ipotesi presenti in letteratura riguardanti un più basso tasso di invecchiamento per questi individui geneticamente peculiari.
+
+All'interno del progetto inoltre i soggetti GO vengono confrontati con i loro coniugi, definiti \textit{Spouses of Geha Offspring (SGO) } poiché il paragone sistematico dei due gruppi costituisce un'opportunità di prima validazione per i biomarcatori individuati trasversalmente per i soggetti RASIG.
+Ci si aspetta infatti che i GO mostrino in generale un'età biologica inferiore rispetto ai loro coniugi. 
+
+Di tutti gli individui analizzati sono stati raccolti dati antropometrici, clinici e demografici in maniera standardizzata.
+Una lista dettagliata di tutti i tipi di dati raccolti per ogni macro-categoria citata sopra è presente nell'articolo in letteratura \cite{markage}.
+
+A causa della considerevole mole di dati clinici e biochimici  raccolti all'interno del progetto, è obbligatoria una rigorosa ed appropriata strategia di analisi e costruzione dei modelli.
+
+Per far fronte a questa esigenza ed estrarre un set vali di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
+\begin{itemize}
+\item 
+\end{itemize}
+
+
+
+
 
 \begin{thebibliography}{99}
 \bibitem{ESL}
@@ -437,6 +460,10 @@ Takeshi Amemiya
 \emph{Regression Analysis when the Dependent Variable is Truncated Normal}
 Econometrica, Novembre 1976,Volume 41, Numero 6
 
+\bibitem{markage}
+Burkle, A. et al.
+\emph{MARK-AGE biomarkers of ageing} 
+Mech. Ageing Dev. (2015)
 \end{thebibliography}
 
 
