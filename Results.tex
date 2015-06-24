@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[12pt,openright,twoside,a4paper]{book}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -23,7 +23,7 @@ Avendo a disposizione un \textit{training set} di dati, dei quali è possibile o
 Una situazione di questo tipo è detta di \textit{Supervised Learning} in quanto è la presenza della variabile di outcome a guidare l'intero processo di apprendimento.
 Introducendo un linguaggio più vicino al \textit{machine learning}, è possibile schematizzare il problema nel seguente semplice modo: si ha a che fare con un set di variabili in \textit{input}, generalmente misurate o note a priori, le quali influenzano uno o più \textit{outputs}; l'obiettivo è l'utilizzo degli input per la previsione dei valori in output.
 
-\section{Interpolazioni Lineari e Metodi di Maximum Likelihood}
+\section{Interpolazioni Lineari e Maximum Likelihood}
 Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelyhoood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
 
 La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
@@ -209,7 +209,13 @@ Per questo set di modelli definiamo allora
 CV(\hat{f}(x,\alpha))=\frac{1}{N}\sum^{N}_{i=1}L(y_i,\hat{f}^{-k(i)}(x_i,\alpha))
 \]
 
-La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul test; possiamo così trovare il parametro di \textit{tuning} $\hat{\alpha}$ che la minimizza. Il modello finale scelto per il fit completo dei dati sarà così $f(x,\hat{\alpha}$.
+La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul test; possiamo così trovare il parametro di \textit{tuning} $\hat{\alpha}$ che la minimizza. Il modello finale scelto per il fit completo dei dati sarà così $f(x,\hat{\alpha})$.
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.4\linewidth]{LearningCurve}
+\caption{\textit{Curva di learning ipotetica per un classificatore su una data analisi: si hanno il plot di $1-Err$ contro la dimensione $N$ del training set. Come si può notare vi sono dimensioni dei subsets per cui la cross-validation sovrastima l'errore sulla predizione, a causa della forza pendenza della curva. }}
+\label{curve}
+\end{figure}
 
 E' interessante a questo punto commentare le capacità performative della cross validation al variare della scelta di $K$.
 
@@ -223,33 +229,7 @@ Il metodo \textit{leave-one-out} ha invece in generale un basso bias ma non è e
 
 
 
-
-
-
-
-
-
-
-
-  
-  
-  
-
-  
-
-
-
-
-
-
-
-
-
-
-
- 
-
-\chapter{Valutazione degli effetti di troncatura deterministica per popolazioni sintetiche}
+\chapter{Valutazione degli effetti di troncatura}
 
 \section{Introduzione al Problema}
 L'utilizzo di database spesso composti su un intervallo discreto di una data popolazione, frequentemente selezionato tramite criteri che possiamo definire "deterministici" (un intervallo di età ad esempio, o in generale un certo range di valori disponibile al momento dell'acquisizione), si contrappone all'esigenza di ottenere un modello di validità generale in termini di coefficienti delle variabili e di interazione fra esse.
@@ -379,12 +359,13 @@ I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10
 \begin{figure}[hbtp]
 \includegraphics[width=\textwidth]{finalgraph}
 \caption{\textit{Plotting della variazione del rapporto fra coefficienti in relazione al taglio del dataset. Come è evidente dal grafico al centro l'errore aumenta considerevolmente per il parametro associato al termine di grado superiore al primo a causa della sua vicinanza allo zero.}}
+\label{finalgraph}
 \end{figure}
 
 
 Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un andamento lievemente esponenziale e dunque tutt'altro che trascurabile.
 
-\chapter{Un ambiente applicativo: Il Progetto Markage}
+\chapter{Un ambito applicativo: Il Progetto Mark-Age}
 \section{Uno sguardo al Progetto}
 \subsection{Obiettivi e scopi}
 Il progetto nasce in risposta al fatto che molti dei cosiddetti \textit{biomarcatori} per l'invecchiamento umano proposti dalla letteratura scientifica presentano una variabilità elevata per quanto riguarda gli studi trasversali.
@@ -407,7 +388,25 @@ Questo però comporta che gli individui debbano essere monitorati fino alla conc
 
 Riferendosi dunque ad un individuo vivente una valutazione plausibile dello stato di invecchiamento, come ad esempio lo stato definito dalla curva precedentemente citata, una predizione del rischio dell'aumento di probabilità di mortalità e una stima dell'aspettativa di vita residua non sono possibili all'interno di questo metodo.
 
-Una strategia per la soluzione di questo problema è fornita dall'identificazione di cambiamenti legati all'età delle funzionalità corporee, che possano così fungere da misura dell'\textit{età biologica} e predire l'andamento ad esempio di malattie legate all'invecchiamento o stimare l'aspettativa di vita in manier più precisa di quanto fornito dall'\textit{età cronologica}.
+Una strategia per la soluzione di questo problema è fornita dall'identificazione di cambiamenti legati all'età delle funzionalità corporee, che possano così fungere da misura dell'\textit{età biologica} e predire l'andamento ad esempio di malattie legate all'invecchiamento o stimare l'aspettativa di vita in maniera più precisa di quanto fornito dall'\textit{età cronologica}.
+
+Questi cambiamenti sono i parametri definiti \textit{biomarcatori dell'invecchiamento}, chiamati così in analogia ai biomarcatori individuati per specifiche malattie croniche o relativi all'esposizione ad alcuni tipi di tossine.
+
+I criteri per l'individuazione di un biomarcatore per l'invecchiamento sono posti dall'\textit{American Federation for Ageing Research}:
+\begin{itemize}
+\item Devono prevedere il tasso di invecchiamento più precisamente dell'età cronologica
+\item Devono essere indicativi di processi sottesi all'invecchiamento, non di malattie
+\item Dev'essere possibile effettuare test ripetuti senza danneggiare gli individui
+\item I risultati devono essere compatibili per esseri umani e cavie da laboratorio
+\end{itemize}
+
+Il progetto su larga scala Mark-Age propone quindi uno studio su vasta popolazione per l'identificazione di biomarcatori efficaci dell'invecchiamento biologico all'interno di un range di diversi sistemi fisiologici.
+
+La popolazione in analisi comprende 3200 soggetti comprensivi di diversi regioni geografiche europee, in uno span di età variabile tra i 35 e i 75 anni.
+
+Sono stati presi in considerazione diversi possibili candidati biomarcatori, in quanto è ragionevole ipotizzare che una combinazione di diversi parametri possa costituire uno strumento d'analisi per la determinazione dell'età biologica rispetto all'isolamento di singole variabili. 
+Il processo di indagine tiene inoltre conto dei pesi effettivi che i diversi marcatori possono avere, in modo da evitare problemi legati alla normalizzazione dei risultati.
+
 
 
 \end{document}
