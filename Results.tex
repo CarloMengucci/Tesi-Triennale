@@ -37,38 +37,69 @@ Per gli scopi del processo utilizzato nella produzione dei risultati relativi a 
 Il modello lineare è uno dei capisaldi delle analisi statistiche ed anche in ambito di machine learning costituisce un potente strumento d'indagine.
 Si giustificherà infatti in questa sezione il fatto che sia possibile ottenere risultati adeguati e facilmente interpretabili anche avendo a disposizione piccoli datasets o in presenza di un basso rapporto segnale-rumore, rendendo dunque il modello lineare altamente performante in termini di capacità predittiva anche in confronto a modelli più analiticamente complessi.
 
-Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello \[\hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}\] dove il termine $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
-Al fine di creare una notazione più compatta possiamo includere la variabile costante $1$ in $X$ e $\hat{\beta_0}$ in $\hat{\beta}$, vettore dei coefficienti associati. Avremo ora la seguente formulazione per il modello \[\hat{Y}=X^T\hat{\beta}\] dove $X^T$ denota il vettore o la matrice trasposta (essendo $X$ un vettore colonna).
+Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello 
+\begin{equation}
+\hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}
+\end{equation}
+
+dove il termine $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
+
+Al fine di creare una notazione più compatta possiamo includere la variabile costante $1$ in $X$ e $\hat{\beta_0}$ in $\hat{\beta}$, vettore dei coefficienti associati. Avremo ora la seguente formulazione per il modello
+\begin{equation}
+\hat{Y}=X^T\hat{\beta}
+\end{equation}
+dove $X^T$ denota il vettore o la matrice trasposta (essendo $X$ un vettore colonna).
 
 Nell'occorrenza in cui l'output sia unico $Y$ sarà uno scalare; in generale può però consistere di un vettore \textit{K-dimensionale}, nel qual caso $\beta$ assumerebbe la forma di una matrice di coefficienti a dimensione $n\times K$.
 
 Vedendola come funzione nello spazio \textit{n-dimensionale} degli input $f(X)=X^T\beta$ è lineare ed il gradiente $f'(X)=\beta$ è un vettore dello spazio degli input con direzione e verso concordi con la direzione di massima pendenza.
 
 Per il fitting del modello lineare su un training set di dati, verrà analizzato il metodo detto dei \textit{minimi quadrati}.
-Questo approccio ha come obiettivo quello di trovare i coefficienti $\beta$ che minimizzano la \textit{somma quadratica dei residui}, definita da \[RSS(\beta)=\sum_{j=1}^{N}(y_i-x_i^T\beta)^2\]
+Questo approccio ha come obiettivo quello di trovare i coefficienti $\beta$ che minimizzano la \textit{somma quadratica dei residui}, definita da 
+\begin{equation}
+RSS(\beta)=\sum_{j=1}^{N}(y_i-x_i^T\beta)^2
+\end{equation}
 
 La funzione $RSS(\beta)$ è una funzione quadratica dei parametri; essa ammette sempre dunque un minimo, ma non è scontata l'unicità di quest'ultimo.
 Utilizzando un'agevole notazione matriciale per caratterizzare la soluzione abbiamo
-\[RSS(\beta)=(\textbf{y}-\textbf{X}\beta)^T(\textbf{y}-\textbf{X}\beta)\]
+\begin{equation}
+RSS(\beta)=(\textbf{y}-\textbf{X}\beta)^T(\textbf{y}-\textbf{X}\beta)
+\end{equation}
+
 dove \textbf{X} è una matrice $N \times n$ le cui righe sono vettori di input e \textbf{y} è un vettore \textit{N-dimensionale} di outputs nel training set.
 
 Differenziando per $\beta$ si ottiene l'\textit{equazione normale}
-\[\textbf{X}^T(\textbf{y}-\textbf{X}\beta)=0\]
+\begin{equation}
+\textbf{X}^T(\textbf{y}-\textbf{X}\beta)=0
+\end{equation}
+
 nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione unica è data da
-\[\hat{\beta}=(\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T\textbf{y}\]
+\begin{equation}
+\hat{\beta}=(\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T\textbf{y}
+\end{equation}
+
 il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$. \cite{ESL}
 
 Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da 
-\[ S = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2\]
+\begin{equation}
+ S = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2
+\end{equation}
 
 E' possibile in tal caso esplicitare i coefficienti $a$ e $b$ come
-\[b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}\]
-\[a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}\]
+\begin{equation}
+b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}
+\end{equation}
+
+\begin{equation}
+a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}
+\end{equation}
 
 Le ipotesi che le osservazioni seguano una distribuzione normale, che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ , fanno sì che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
 
 Con un ragionamento più generale, assumiamo infatti di dover cercare una correlazione qualsiasi del tipo $Y=\Phi(X)$; essa dipenderà da un certo numero di parametri in modo tale che si possa scrivere
-\[Y=\Phi(X,\{\lambda_k\})\]
+\begin{equation}
+Y=\Phi(X,\{\lambda_k\})
+\end{equation}
 
 Per la stima dei parametri $\{\lambda_k\}$ e quindi per l'adattamento della funzione $Y=\Phi(X,\{\lambda_k\})$ ai punti sperimentali introduciamo due ipotesi di partenza:
 \begin{itemize}
@@ -77,16 +108,20 @@ Per la stima dei parametri $\{\lambda_k\}$ e quindi per l'adattamento della funz
 \end{itemize}
 
 Se i parametri $\{\lambda_k\}$ della funzione $Y=\Phi(x,\{\lambda_k\})$ fossero noti, una volta fissato un valore $x_i$ della variabile indipendente $X$, la densità di probabilità di misurare un valore $y_i$ sarebbe
-\[
+\begin{equation}
 f(y_i)=\frac{1}{\sigma_i \sqrt{2\pi}} exp\{- \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{2\sigma_i^2}\}
-\]
+\end{equation}
 
 Fissato un insieme di $N$ valori $x_1,..,x_N$ di $X$, la densità di probabilità di ottenere una $N-pla$ di valori $y_1,...,y_N$ tra loro indipendenti è data da una densità multivariata fattorizzabile nel prodotto delle singole densità $f(y_i)$
-\[
-g(y_1,...,y_N;\{\lambda_k\})=\prod^{N}_{i=1}\frac{1}{\sigma_i \sqrt{2\pi}} exp\{- \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{2\sigma_i^2}\}=\]
-\[
-=\frac{1}{(\prod_{i}\sigma_i)(2\pi)^{N/2}} exp\{-1/2\sum^{N}_{i=1} \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{\sigma_i^2}\}
-\]
+
+\begin{equation}
+g(y_1,...,y_N;\{\lambda_k\})=\prod^{N}_{i=1}\frac{1}{\sigma_i \sqrt{2\pi}} exp\{- \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{2\sigma_i^2}\}
+\end{equation}
+
+\begin{equation}
+g(y_1,...,y_N;\{\lambda_k\})=\frac{1}{(\prod_{i}\sigma_i)(2\pi)^{N/2}} exp\{-1/2\sum^{N}_{i=1} \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{\sigma_i^2}\}
+\end{equation}
+
 
 Nella realtà sono invece noti gli $N$ valori $y_i$, mentre sono incogniti i valori dei parametri $\{\lambda_k\}$.
 
@@ -94,14 +129,15 @@ Le migliori stime dei parametri si hanno ora massimizzando $g(y_1,...,y_N;\{\lam
 
 La sommatoria viene convenzionalmente indicata come $\chi^2$
 
-\[
+\begin{equation}
 \chi^2=\sum^{N}_{i=1} \frac{[y_i - \phi(x,\{\lambda_k\})]^2}{\sigma_i^2}\}
-\]
+\end{equation}
 
 Essendo ora noti i valori $x_i$ e $y_i$ e $\sigma_i$ è chiaro che la funzione $\chi^2$ è una funzione dei soli parametri $\{\lambda_k\}$
-\[
+\begin{equation}
 \chi^2=\chi^2(\lambda_1,...,\lambda_p)
-\]
+\end{equation}
+
 definita in uno spazio \textit{p-dimensionale}.
 
 Per determinare i $\{\lambda_k\}$ che permettono alla funzione $\Phi(x,\{\lambda_k\})$ di adattarsi meglio ai punti sperimentali è sufficiente una minimizzazione di $\chi^2$ nello spazio \textit{p-dimensionale} dei parametri. \cite{fornasini}
@@ -121,20 +157,34 @@ E' necessario trovare un estimatore $\hat{\theta}$ il più vicino possibile al v
 
 Per utilizzare il metodo di massima verosimiglianza, si procede specificando la \textit{funzione di densità complessiva} per tutte le osservazioni.
 Per un campionamento indipendente e distribuito identicamente si ha
-\[ f(x_1,x_2,\ldots,x_n\mid\theta) = f(x_1|\theta)\times f(x_2|\theta) \times \cdots \times  f(x_n|\theta)\]
+\begin{equation}
+f(x_1,x_2,\ldots,x_n\mid\theta) = f(x_1|\theta)\times f(x_2|\theta) \times \cdots \times  f(x_n|\theta)
+\end{equation}
+
 Considerando le osservazioni $x_1,x_3,..,x_n$ come parametri fissati della funzione, $\theta$ assumerà il ruolo di variabile arbitraria; è così possibile introdurre la \textit{funzione di verosimiglianza}
-\[ \mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = f(x_1,x_2,\ldots,x_n\mid\theta) = \prod_{i=1}^n f(x_i\mid\theta)\]
+\begin{equation}
+\mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = f(x_1,x_2,\ldots,x_n\mid\theta) = \prod_{i=1}^n f(x_i\mid\theta)
+\end{equation}
+
 Da un punto di vista puramente operativo è conveniente utilizzare il logaritmo della funzione di verosimiglianza (\textit{log-likelihood})
- \[\ln\mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = \sum_{i=1}^n \ln f(x_i\mid\theta)\]
+ \begin{equation}
+ \ln\mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = \sum_{i=1}^n \ln f(x_i\mid\theta)
+ \end{equation}
+ 
 e considerare il \textit{log-likelihood medio}
-\[\hat\ell = \frac1n \ln\mathcal{L}\]
+\begin{equation}
+\hat\ell = \frac1n \ln\mathcal{L}
+\end{equation}
 
 La notazione $\hat\ell$ non è affatto casuale: essa assimila il termine ad un estimatore, cosa che in effetti $\hat\ell$ è in quanto indice di verosimiglianza logaritmica attesa per la singola osservazione.
 
 Il metodo di massima verosimiglianza stima dunque $\theta_0$ a partire da un valore $\theta$ che massimizza $\hat\ell(\theta,x)$.
 
 Il metodo definisce così un \textit{Maximum-Likelihood Estimator (\textbf{MLE}) } per $\theta_0$
-\[\{ \hat\theta_\mathrm{mle}\} \subseteq \{ \underset{\theta\in\Theta}{\operatorname{arg\,max}}\ \hat\ell(\theta\,;\,x_1,\ldots,x_n) \}\]
+\begin{equation}
+\{ \hat\theta_\mathrm{mle}\} \subseteq \{ \underset{\theta\in\Theta}{\operatorname{arg\,max}}\ \hat\ell(\theta\,;\,x_1,\ldots,x_n) \}
+\end{equation}
+
 La massimizzazione della log-likelihood è equivalente a quella della likelihood vera e propria, essendo il logaritmo una funziona monotona strettamente crescente. \cite{MLE}
 
 Per la maggior parte dei modelli, può essere trovato un MLE sotto forma di funzione esplicita dei dati osservati $x_1,x_3,..,x_n$.
@@ -149,9 +199,10 @@ L'aggiunta di queste  condizioni rende la distribuzione $X$ una \textit{Gaussian
 $a<X<b$.
 
 La sua funzione di densità di probabilità $f$ per $a\leq x \leq b$ assumerà dunque la forma
-\[
+\begin{equation}
 f(x;\mu,\sigma,a,b) = \frac{\phi(\frac{x - \mu}{\sigma})}{\Phi(\frac{b - \mu}{\sigma}) - \Phi(\frac{a - \mu}{\sigma}) }{.}\frac{1}{\sigma}
-\]
+\end{equation}
+
 ed $f=0$ al di fuori dell'intervallo.
 
 Si ha che per $	\xi=\frac{x-\mu}{\sigma}$; ${\phi(\xi)=\frac{1}{\sqrt{2 \pi}}\exp{(-\frac{1}{2}\xi^2})} $ rappresenta la funzione di densità di probabilità della \textit{distribuzione normale standard} mentre le ${\Phi(\cdot)}$ sono le \textit{funzioni di distribuzione complessiva (cumulative distribution functions)}. \cite{TGMLE}
@@ -179,9 +230,10 @@ Un metodo direttamente basato sul train-test splitting è quello della \textit{C
 Questo è probabilmente il metodo più semplice ed ampiamente utilizzato per stimare l'errore e dunque la qualità di una predizione.
 
 La cross-validation stima in maniera diretta l'errore atteso per l'analisi riferita al subsample (che possiamo assimilare ad un test set) che rimane esterno all'elaborazione dei parametri, definito come
-\[
+\begin{equation}
 Err=E[L(Y,\hat{f}(X)]
-\]
+\end{equation}
+
 dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente della distribuzione correlata di $X$ e $Y$.
 
 Idealmente, avendo a disposizione un numero sufficientemente grande di dati, potremmo isolare quello che verrà chiamato \textit{validation set} ed utilizzarlo per valutare la performance del modello predittivo utilizzato.
@@ -197,18 +249,18 @@ Sia $k:\{1,2,...,N\}\longmapsto\{1,...,K\}$ una funzione di indexing che indica 
 
 Sia $\hat{f}^{-k}(x)$ la funzione interpolata, calcolata avendo rimosso la \textit{k-esima} parte dei dati.
 Allora la stima dell'errore sulla predizione data dalla cross validation sarà
-\[
+\begin{equation}
 CV(\hat{f})=\frac{1}{N}\sum^{N}_{i=1}L(y_i,\hat{f}^{-k(i)}(x_i))
-\]
+\end{equation}
 
 Delle scelte tipiche per $K$ sono $K=5,K=10$; il caso in cui si ponga $K=N$ la procedura prende il nome di \textit{leave-one-out cross-validation} e si avrà che $k(i)=i$, cosicché per ogni \textit{i-esima} osservazione il fit sarà calcolato su tutte le altre osservazioni eccetto la \textit{i-esima}.
 
 Dato un set di modelli $f(x,\alpha)$ indicizzati tramite il parametro di curvatura $\alpha$, si indica con $\hat{f}^{-k}(x,\alpha)$ l'$\alpha-esimo$ elaborato avendo rimosso la \textit{k-esima} parte dei dati.
 Per questo set di modelli definiamo allora
 
-\[
+\begin{equation}
 CV(\hat{f}(x,\alpha))=\frac{1}{N}\sum^{N}_{i=1}L(y_i,\hat{f}^{-k(i)}(x_i,\alpha))
-\]
+\end{equation}
 
 La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul test; possiamo così trovare il parametro di \textit{tuning} $\hat{\alpha}$ che la minimizza. Il modello finale scelto per il fit completo dei dati sarà così $f(x,\hat{\alpha})$. \cite{ESL}
 
@@ -245,7 +297,13 @@ I risultati di seguito riportati si riferiscono ad interpolazioni di tipo linear
 
 \section{Metodi di Elaborazione}
 \subsection {Generazione delle popolazioni e Data Structures}
-Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione \[y=x_1+0.1x_1^2+x_2x_3\]con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
+Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione 
+
+\begin{equation}
+y=x_1+0.1x_1^2+x_2x_3
+\end{equation}
+
+con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
 In questo modo è possibile valutare la propagazione dell'effetto non solo per termini di primo gradoma anche per  termini di grado superiore al primo e per termini d'interazione (nel caso presente sotto forma di prodotto).
 
 Lo script genera due popolazioni ciascuna composta da $N=10^3$ individui, che successivamente vengono scalate in base alla percentuale di taglio in analisi fornita come argomento alla funzione.
@@ -260,14 +318,19 @@ Prima di procedere con la descrizione dei metodi analitici, è utile commentare 
 
 Sia un modello di regressione nella forma $y=X\beta+\epsilon$ dove $X$ è la design matrix, $y$ il vettore delle osservazioni sulla variabile dipendente, $\beta$ un vettore di coefficienti associati alle $X_i$ ed $\epsilon $ il vettore dei termini di errore.
 Prendendo ad esempio un modello del tipo:
-\[y_i = \beta_0 + \beta_1 w_i + \beta_2 x_i + \epsilon_i \]
-con 7 osservazioni dipendenti dalle variabili $w$ ed $x$, si ha in termini matriciali:
+\begin{equation}
+y_i = \beta_0 + \beta_1 w_i + \beta_2 x_i + \epsilon_i
+\end{equation}
 
-\[\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5 \\ y_6 \\ y_7 \end{bmatrix} =
+con 7 osservazioni dipendenti dalle variabili $w$ ed $x$, si ha in termini matriciali:
+\begin{equation}
+\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5 \\ y_6 \\ y_7 \end{bmatrix} =
 \begin{bmatrix} 1 & w_1 & x_1  \\1 & w_2 & x_2  \\1 & w_3 & x_3  \\1 & w_4 & x_4  \\1 & w_5 & x_5  \\1 & w_6 & x_6 \\ 1& w_7  & x_7  \end{bmatrix}
 \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2  \end{bmatrix}
 +
-\begin{bmatrix} \epsilon_1 \\ \epsilon_2 \\ \epsilon_3 \\ \epsilon_4 \\ \epsilon_5 \\ \epsilon_6 \\ \epsilon_7 \end{bmatrix}\]
+\begin{bmatrix} \epsilon_1 \\ \epsilon_2 \\ \epsilon_3 \\ \epsilon_4 \\ \epsilon_5 \\ \epsilon_6 \\ \epsilon_7 \end{bmatrix}
+\end{equation}
+
 Convenzionalmente, ed anche all'interno del programma utilizzato, la matrice delle $y$ è definita come "Outcome" e quella delle $X$ come "Predictor"; in questo modo è possibile generalizzare l'elaborazione senza dover definire funzioni specifiche in relazione al numero ed al tipo di variabili introdotte.
 
 L'analisi è dunque strutturata in due parti specifiche per valutare l'effetto di slicing su quelli che sono aspetti essenziali per l'attribuzione della capacità predittiva di un dato metodo: il ranking di modelli ipotetici per $y$, ovviamente noto quello utilizzato per la generazione, e la precisione nella stima dei coefficienti per  le $x$.
@@ -369,10 +432,12 @@ Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotes
 
 \chapter{Un ambito applicativo: Il Progetto Mark-Age}
 \section{Uno sguardo al Progetto}
-\subsection{Obiettivi e scopi}
+\subsection{Obiettivi}
 Il progetto nasce in risposta al fatto che molti dei cosiddetti \textit{biomarcatori} per l'invecchiamento umano proposti dalla letteratura scientifica presentano una variabilità elevata per quanto riguarda gli studi trasversali.
 
 Ciò implica che non sia ancora stato individuata una singola variabile che sussista da sola come marcatore utile per la determinazione dell'età biologica. Una spiegazione plausibile è data dall'intrinseca  natura \textit{multi-casuale} e \textit{multi-sistemica} dell'invecchiamento.
+
+
 
 Lo scopo principale del progetto è quello di condurre uno studio di popolazione su circa 3200 soggetti per identificare in set di \textit{biomarcatori} per l'invecchiamento, i quali sotto forma di combinazioni di parametri a cui è attribuito un peso appropriato, siano complessivamente in grado di stimare l'età biologica in maniera più efficiente rispetto ad ogni tipo di marcatore isolato.
 
@@ -427,7 +492,27 @@ A causa della considerevole mole di dati clinici e biochimici  raccolti all'inte
 
 Per far fronte a questa esigenza ed estrarre un set vali di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
 \begin{itemize}
-\item 
+\item \textbf{Analisi della consistenza dei dati}
+ 
+E' stata utilizzata la conoscenza pregressa a proposito di correlazioni fra variabili ipotizzate per giudicare il rapporto del rumore per alcune delle misure usando metodi statistici classici.
+Per una robustezza ancora maggiore alcuni campionamenti sono stati ripetuti nell'arco di sei mesi.
+\item \textbf{Tecniche di Modelling}
+
+Sono stati utilizzati metodi statistici, di machine learning e di data mining per la costruzione di modelli in grado di predire nel migliore dei modi possibili l'età biologica.
+Sono state impiegate tecniche classiche come  l'analisi di regressione ma anche metodi di Networking Neurale per acquisire una migliore conoscenza delle proprietà \textit{locali} delle interazioni fra le variabili.
+
+\item \textbf{Riduzione della Varianza}
+
+L'obiettivo è quello di ridurre le misure necessarie ma allo stesso tempo ridurre la varianza delle predizioni generate attraverso tecniche di riduzione dimensionale (quali ad esempio analisi della principale componente). 
+Il machine learning gioca un ruolo fondamentale per questo aspetto.
+
+\item \textbf{Clustering e visualizzazione}
+
+Ci si aspetta di individuare nuove relazioni fra i dati nell'individuazione della corretta età biologica.
+I metodi di visualizzazione interattiva e di clustering costituiscono un strumento agevole per la scoperta di nuove correlazioni.
+E' infatti ipotizzato che alcuni tipi di misure abbiano una maggior correlazione con l'età biologica rispetto ad altri.
+L'individuazione di cluster di questo tipo di parametri aiuta a ridurre la varianza dei modelli generati, in quanto si avranno caratteristiche migliori per i modelli generati da sub sets di dati.
+
 \end{itemize}
 
 
