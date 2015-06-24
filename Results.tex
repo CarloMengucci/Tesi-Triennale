@@ -174,15 +174,14 @@ Operativamente è possibile effettuare lo splitting utilizzando algoritmi di ran
 
 Questa procedura, seppur elementare, sopperisce al problema del cosiddetto \textit{overfitting}, ossia la tendenza a creare un modello analitico che interpoli molto precisamente i dati sperimentali a scapito di una scarsa capacità predittiva.
 
-Un metodo direttamente sul train-test splitting è quello della \textit{Cross Validation}.
+Un metodo direttamente basato sul train-test splitting è quello della \textit{Cross Validation}.
 Questo è probabilmente il metodo più semplice ed ampiamente utilizzato per stimare l'errore e dunque la qualità di una predizione.
 
 La cross-validation stima in maniera diretta l'errore atteso per l'analisi riferita al subsample (che possiamo assimilare ad un test set) che rimane esterno all'elaborazione dei parametri, definito come
 \[
 Err=E[L(Y,\hat{f}(X)]
 \]
-
-generalmente dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente della distribuzione correlata di $X$ e $Y$.
+dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente della distribuzione correlata di $X$ e $Y$.
 
 Idealmente, avendo a disposizione un numero sufficientemente grande di dati, potremmo isolare quello che verrà chiamato \textit{validation set} ed utilizzarlo per valutare la performance del modello predittivo utilizzato.
 
@@ -258,14 +257,14 @@ L'utilizzo di database spesso composti su un intervallo discreto di una data pop
 Nella sezione precedente è stato inoltre dimostrato come la presenza di un troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido. 
 Una conseguenza inevitabile di ciò è una propagazione dell'errore anche nell'ambito di attribuzione dello score dei modelli ipotetici, poiché avremo una valutazione della bontà di previsione sotto forma di $R^2$ riferita ad un metodo il cui limite di validità è trasceso.
 
-Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere generale senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello come di stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
+Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere generale senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello come stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
 
 I risultati di seguito riportati si riferiscono ad interpolazioni di tipo lineare, elaborate attraverso metodi di machine learning quali cross-validation e boot-strapping (precedentemente descritti).
 
 \section{Metodi di Elaborazione}
 \subsection {Generazione delle popolazioni e Data Structures}
 Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione \[y=x_1+0.1x_1^2+x_2x_3\]con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
-In questo modo è possibile valutare il bias per termini di primo grado, termini di grado superiore al primo e termini d'interazione (nel caso presente sotto forma di prodotto).
+In questo modo è possibile valutare la propagazione dell'effetto non solo per termini di primo gradoma anche per  termini di grado superiore al primo e per termini d'interazione (nel caso presente sotto forma di prodotto).
 
 Lo script genera due popolazioni ciascuna composta da $N=10^3$ individui, che successivamente vengono scalate in base alla percentuale di taglio in analisi fornita come argomento alla funzione.
 
@@ -364,7 +363,11 @@ y $\sim$ x2              &        -0.094 &        -0.091 &            -0.038 &  
 \end{tabular}
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è del 33\%}.}
 \end{table}
+Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.  
+Tutto ciò causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati. 
+
 Come si vede dai risultati, la classifica dei modelli in relazione alla stima del peso dei termini è in generale mantenuta anche per perdite considerevoli di dati mentre la qualità della previsione riferita alle popolazioni tagliate peggiora notevolmente; resta quindi da determinare l'andamento della stima dei coefficienti in relazione alla percentuale di utilizzo dei datasets.
+
 
 \subsection{Effetto della troncatura nella stima dei coefficienti }
 
@@ -381,4 +384,5 @@ I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10
 
 Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un andamento lievemente esponenziale e dunque tutt'altro che trascurabile.
 
+\chapter{Un possibile ambiente applicativo: Il Progetto Markage}
 \end{document}
