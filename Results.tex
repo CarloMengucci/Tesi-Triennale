@@ -10,6 +10,8 @@
 \usepackage{booktabs}
 \usepackage{textcomp}
 
+% permette di inserire le note a margine
+\usepackage{marginnote}
 
 \begin{document}
 \tableofcontents
@@ -27,6 +29,12 @@ Introducendo un linguaggio più vicino al \textit{machine learning}, è possibil
 \section{Interpolazioni Lineari e Maximum Likelihood}
 Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelyhoood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
 
+La bontà delle predizioni effettuate con questi metodi può essere quantificata in vari modi.
+Uno dei più importanti è rappresentato dalla distinzione \textit{Precisione} ed \textit{Accuratezza}.
+L'accuratezza rappresenta quanto è distorta la predizione; una predizione è accurata quando il valore attesa della tecnica non ha \textit{Bias}, ovvero è vicino al valore teorico.
+La precisione rappresenta la variabilità (\textit{Variance} in inglese) della predizione; un metodo con alta precisione avrà poca dispersione intorno al proprio valore atteso.
+In generale non è possibile ottimizzare entrambi allo stesso momento, ed è quindi necessario scegliere il metodo più appropriato in base alle proprie esigenze.
+
 La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
 Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}).
 Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}.
@@ -37,12 +45,14 @@ Per gli scopi del processo utilizzato nella produzione dei risultati relativi a 
 Il modello lineare è uno dei capisaldi delle analisi statistiche ed anche in ambito di machine learning costituisce un potente strumento d'indagine.
 Si giustificherà infatti in questa sezione il fatto che sia possibile ottenere risultati adeguati e facilmente interpretabili anche avendo a disposizione piccoli datasets o in presenza di un basso rapporto segnale-rumore, rendendo dunque il modello lineare altamente performante in termini di capacità predittiva anche in confronto a modelli più analiticamente complessi.
 
-Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello 
+Dato un vettore di inputs  $X^T = (X_1,X_2,...,X_n)$, intendiamo predire l'output $Y$ attraverso il modello
 \begin{equation}
 \hat{Y}=\hat{\beta_0}+\sum_{j=1}^{n}X_j\hat{\beta_j}
 \end{equation}
 
 dove il termine $\hat{\beta_0}$ è l'intercetta o \textit{bias} in termini di machine learning.
+$X$ può essere una qualsiasi combinazione delle variabili usate per la predizione, lineare o meno; il termine
+modello lineare si riferisce infatti solo ai coefficienti $\beta_j$.
 
 Al fine di creare una notazione più compatta possiamo includere la variabile costante $1$ in $X$ e $\hat{\beta_0}$ in $\hat{\beta}$, vettore dei coefficienti associati. Avremo ora la seguente formulazione per il modello
 \begin{equation}
@@ -55,7 +65,7 @@ Nell'occorrenza in cui l'output sia unico $Y$ sarà uno scalare; in generale pu�
 Vedendola come funzione nello spazio \textit{n-dimensionale} degli input $f(X)=X^T\beta$ è lineare ed il gradiente $f'(X)=\beta$ è un vettore dello spazio degli input con direzione e verso concordi con la direzione di massima pendenza.
 
 Per il fitting del modello lineare su un training set di dati, verrà analizzato il metodo detto dei \textit{minimi quadrati}.
-Questo approccio ha come obiettivo quello di trovare i coefficienti $\beta$ che minimizzano la \textit{somma quadratica dei residui}, definita da 
+Questo approccio ha come obiettivo quello di trovare i coefficienti $\beta$ che minimizzano la \textit{somma quadratica dei residui}, definita da
 \begin{equation}
 RSS(\beta)=\sum_{j=1}^{N}(y_i-x_i^T\beta)^2
 \end{equation}
@@ -79,13 +89,14 @@ nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione uni
 \end{equation}
 
 il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$. \cite{ESL}
+Se $X^TX$ risulterebbe singolare qualora una delle osservabili contenute in $X$ fosse esprimibile come una combinazione lineare di altri osservabili, ovvero $X$ non fosse di rango massimo. Anche quando questo non fosse esattamente vero, matrici quasi singolari potrebbero comunque dare problemi di convergenza agli algoritmi normalmente utilizzati.
 
-Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da 
+Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da
 \begin{equation}
  S = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2
 \end{equation}
 
-E' possibile in tal caso esplicitare i coefficienti $a$ e $b$ come
+È possibile in tal caso esplicitare i coefficienti $a$ e $b$ come
 \begin{equation}
 b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}
 \end{equation}
@@ -94,7 +105,7 @@ b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}
 a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}
 \end{equation}
 
-Le ipotesi che le osservazioni seguano una distribuzione normale, che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ , fanno sì che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
+Le ipotesi necessarie sono che i residui ($y-f(x)$) seguano una distribuzione normale (o approssimabile come tale), che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ , fanno sì che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
 
 Con un ragionamento più generale, assumiamo infatti di dover cercare una correlazione qualsiasi del tipo $Y=\Phi(X)$; essa dipenderà da un certo numero di parametri in modo tale che si possa scrivere
 \begin{equation}
@@ -125,7 +136,8 @@ g(y_1,...,y_N;\{\lambda_k\})=\frac{1}{(\prod_{i}\sigma_i)(2\pi)^{N/2}} exp\{-1/2
 
 Nella realtà sono invece noti gli $N$ valori $y_i$, mentre sono incogniti i valori dei parametri $\{\lambda_k\}$.
 
-Le migliori stime dei parametri si hanno ora massimizzando $g(y_1,...,y_N;\{\lambda_k\}$ rispetto ad essi, ossia minimizzando la sommatoria che compare all'esponente dell'ultimo membro dell'equazione di cui sopra. 
+Le migliori stime dei parametri si hanno ora massimizzando $g(y_1,...,y_N;\{\lambda_k\}$ rispetto ad essi, ossia minimizzando la sommatoria che compare all'esponente dell'ultimo membro dell'equazione di cui sopra.
+Questo rappresenta la scelta dei parametri $\lambda_k$ tali che i dati osservati siano il più plausibile possibile.
 
 La sommatoria viene convenzionalmente indicata come $\chi^2$
 
@@ -144,16 +156,18 @@ Per determinare i $\{\lambda_k\}$ che permettono alla funzione $\Phi(x,\{\lambda
 
 E' importante tenere come questo tipo di trattazione non prescinda mai dal'ipotesi di normalità
 
-E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo. 
+E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo.
 Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
+
+\marginnote{qui spiegherei che il caso che studiamo è quello di dati mancanti non random (\url{https://en.wikipedia.org/wiki/Missing_data}). Il problema è che in questo caso mancano tutti i dati al di fuori dell'intervallo, ed è questo che distorce i nostri risultati. Questo succede ogni volta in cui la mancanza di un dato è associata al suo valore, sia per ragioni sperimentali che di design.}
 
 \subsection{Maximum Likelihood e Distribuzioni Normali Troncate}
 L'ipotesi strutturale sulla distribuzione dei residui necessaria, per l'assunzione dei minimi quadrati come funzione di massima verosimiglianza, viene meno nel caso in cui si ha a che fare con una Gaussiana troncata.
 
-In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(\cdot)$ non è nota. 
-E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(\cdot |\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(\cdot |\theta_0)$. 
+In generale è infatti presente un campionamento $x_1,x_3,..,x_n$ di $n$ osservazioni indipendenti ed identicamente distribuite, provenienti da una distribuzione la cui \textit{funzione di densità di probabilità }  $f_0(\cdot)$ non è nota.
+E' comunque assunto che essa appartenga ad una certa famiglia di distribuzioni $ \{f(\cdot |\theta),\theta\in\Theta\} $, dove $\theta$ è un vettore di parametri per la famiglia stessa detta \textit{modello parametrico}, cosicché $f_0=f(\cdot |\theta_0)$.
 Il valore $\theta_0$ non è noto ed è il \textit{valore vero} del vettore dei parametri.
-E' necessario trovare un estimatore $\hat{\theta}$ il più vicino possibile al valore $\theta_0$. 
+E' necessario trovare un estimatore $\hat{\theta}$ il più vicino possibile al valore $\theta_0$.
 
 Per utilizzare il metodo di massima verosimiglianza, si procede specificando la \textit{funzione di densità complessiva} per tutte le osservazioni.
 Per un campionamento indipendente e distribuito identicamente si ha
@@ -170,7 +184,7 @@ Da un punto di vista puramente operativo è conveniente utilizzare il logaritmo 
  \begin{equation}
  \ln\mathcal{L}(\theta\,;\,x_1,\ldots,x_n) = \sum_{i=1}^n \ln f(x_i\mid\theta)
  \end{equation}
- 
+
 e considerare il \textit{log-likelihood medio}
 \begin{equation}
 \hat\ell = \frac1n \ln\mathcal{L}
@@ -194,7 +208,7 @@ Il problema dello slicing deterministico dei dati che questo lavoro si propone d
 
 A partire dalla formulazione della sua particolare \textit{funzione di densità di probabilità} sarà possibile giustificare l'impossibilità di definire una soluzione analitica per questo tipo di distribuzioni.
 
-Supponiamo infatti che  $X \sim N(\mu, \sigma^{2}) \!$ abbia una distribuzione normale e sia confinata nell'intervallo $ X \in (a,b), \; -\infty \leq a < b \leq \infty $. 
+Supponiamo infatti che  $X \sim N(\mu, \sigma^{2}) \!$ abbia una distribuzione normale e sia confinata nell'intervallo $ X \in (a,b), \; -\infty \leq a < b \leq \infty $.
 L'aggiunta di queste  condizioni rende la distribuzione $X$ una \textit{Gaussiana troncata} nell'intervallo
 $a<X<b$.
 
@@ -210,7 +224,7 @@ Si ha che per $	\xi=\frac{x-\mu}{\sigma}$; ${\phi(\xi)=\frac{1}{\sqrt{2 \pi}}\ex
 La presenza delle $\Phi(\alpha),\Phi(\beta)$ con $\alpha=\frac{a-\mu}{\sigma}, \beta=\frac{b-\mu} {\sigma}$ comporta l'impossibilità di una formulazione semplice ed analiticamente definita dei parametri di massima verosimiglianza, rendendo necessaria un'ottimizzazione numerica per l'approssimazione delle soluzioni.
 Questo aspetto e la proposta di possibili metodi di soluzione sono ampiamente trattati in letteratura. \cite{econ}
 
-Questo lavoro si propone tuttavia di correggere i metodi lineari canonici, ampiamente utilizzati dagli algoritmi di \textit{machine learning}, trattando la possibilità di stimare il \textit{bias} associato all'utilizzo di un MLE non analiticamente corretto. 
+Questo lavoro si propone tuttavia di correggere i metodi lineari canonici, ampiamente utilizzati dagli algoritmi di \textit{machine learning}, trattando la possibilità di stimare il \textit{bias} associato all'utilizzo di un MLE non analiticamente corretto.
 
 In questo modo sarà possibile ottenere previsioni e risultati verosimili mantenendo la semplicità operativa propria dell'ipotesi lineare.
 A questo proposito nella sezione successiva seguirà la descrizione dei metodi legati al machine learning propriamente detto.
@@ -288,7 +302,7 @@ Il metodo \textit{leave-one-out} ha invece in generale un basso bias ma non è e
 \section{Introduzione al Problema}
 L'utilizzo di database spesso composti su un intervallo discreto di una data popolazione, frequentemente selezionato tramite criteri che possiamo definire "deterministici" (un intervallo di età ad esempio, o in generale un certo range di valori disponibile al momento dell'acquisizione), si contrappone all'esigenza di ottenere un modello di validità generale in termini di coefficienti delle variabili e di interazione fra esse.
 
-Nella sezione precedente è stato inoltre dimostrato come la presenza di un troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido. 
+Nella sezione precedente è stato inoltre dimostrato come la presenza di un troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido.
 Una conseguenza inevitabile di ciò è una propagazione dell'errore anche nell'ambito di attribuzione dello score dei modelli ipotetici, poiché avremo una valutazione della bontà di previsione sotto forma di $R^2$ riferita ad un metodo il cui limite di validità è trasceso.
 
 Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere generale senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello come stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
@@ -297,16 +311,19 @@ I risultati di seguito riportati si riferiscono ad interpolazioni di tipo linear
 
 \section{Metodi di Elaborazione}
 \subsection {Generazione delle popolazioni e Data Structures}
-Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione 
+
+Per studiare gli effetti della troncatura della variabile dipendente abbiamo utilizzato un dataset modello (\textit{toy model}) le cui relazioni sono note e determinate a priori, in modo da poter valutare esattamente gli effetti dei metodi utilizzati nella stima del miglior modello di regressione e del valore dei suoi parametri.
+
+Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione
 
 \begin{equation}
 y=x_1+0.1x_1^2+x_2x_3
 \end{equation}
 
 con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
-In questo modo è possibile valutare la propagazione dell'effetto non solo per termini di primo gradoma anche per  termini di grado superiore al primo e per termini d'interazione (nel caso presente sotto forma di prodotto).
+In questo modo è possibile valutare la propagazione dell'effetto non solo per termini di primo grado ma anche per  termini di grado superiore al primo e per termini d'interazione (nel caso presente sotto forma di prodotto).
 
-Lo script genera due popolazioni ciascuna composta da $N=10^3$ individui, che successivamente vengono scalate in base alla percentuale di taglio in analisi fornita come argomento alla funzione.
+Lo script genera due popolazioni ciascuna composta da $N=10^3$ individui, che successivamente vengono scalate in base alla percentuale di taglio in analisi fornita come argomento alla funzione. Viene fissata una certa percentuale di dati da troncare agli estremi di una popolazione, e l'altra viene generata con un sottocampionamento che mantenga la stessa numerosità ma che rispetti le ipotesi di normalità delle distribuzioni.
 
 In questo modo sarà sempre possibile confrontare risultati elaborati su popolazioni della stessa grandezza, una composta da elementi selezionati casualmente e che dunque sarà semplicemente una "riduzione in scala" della popolazione iniziale, l'altra composta dagli elementi presenti entro il range percentuale del taglio.
 
@@ -336,7 +353,7 @@ Convenzionalmente, ed anche all'interno del programma utilizzato, la matrice del
 L'analisi è dunque strutturata in due parti specifiche per valutare l'effetto di slicing su quelli che sono aspetti essenziali per l'attribuzione della capacità predittiva di un dato metodo: il ranking di modelli ipotetici per $y$, ovviamente noto quello utilizzato per la generazione, e la precisione nella stima dei coefficienti per  le $x$.
 
 \subsection{Effetto della troncatura nell'attribuzione dello score per modelli ipotetici}
-L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation) per il calcolo della bontà di previsione del regressore fornito,  una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato" tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
+L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di fold pari a 10) per il calcolo della bontà di previsione del regressore fornito,  una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato" tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
 
 In questo modo è possibile simulare l'effetto di perdita di dati sensibili a causa di criteri di selezione dei campioni o in generale l'utilizzo di un range discreto di occorrenze.
 
@@ -362,7 +379,7 @@ y$\sim$x3                &        -0.009 &        -0.011 &            -0.001 &  
 y $\sim$ x2              &        -0.005 &        -0.011 &            -0.005 &            -0.002 \\
 \bottomrule
 \end{tabular}
-\caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è massima.}}
+\caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso senza troncature, per verificare che l'algoritmo restituisse valori consistenti.}}
 \end{table}
 
 \begin{table}[h!btp]
@@ -408,8 +425,8 @@ y $\sim$ x2              &        -0.094 &        -0.091 &            -0.038 &  
 \end{tabular}
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è del 33\%}.}
 \end{table}
-Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.  
-Tutto ciò causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati. 
+Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.
+Tutto ciò causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati.
 
 Come si vede dai risultati, la classifica dei modelli in relazione alla stima del peso dei termini è in generale mantenuta anche per perdite considerevoli di dati mentre la qualità della previsione riferita alle popolazioni tagliate peggiora notevolmente; resta quindi da determinare l'andamento della stima dei coefficienti in relazione alla percentuale di utilizzo dei datasets.
 
@@ -471,7 +488,7 @@ Il progetto su larga scala Mark-Age propone quindi uno studio su vasta popolazio
 
 La popolazione in analisi comprende 3200 soggetti comprensivi di diversi regioni geografiche europee, in uno span di età variabile tra i 35 e i 75 anni.
 
-Sono stati presi in considerazione diversi possibili candidati biomarcatori, in quanto è ragionevole ipotizzare che una combinazione di diversi parametri possa costituire uno strumento d'analisi per la determinazione dell'età biologica rispetto all'isolamento di singole variabili. 
+Sono stati presi in considerazione diversi possibili candidati biomarcatori, in quanto è ragionevole ipotizzare che una combinazione di diversi parametri possa costituire uno strumento d'analisi per la determinazione dell'età biologica rispetto all'isolamento di singole variabili.
 Il processo di indagine tiene inoltre conto dei pesi effettivi che i diversi marcatori possono avere, in modo da evitare problemi legati alla normalizzazione dei risultati.
 
 Una parte importante del progetto consiste dunque dell'ottimizzazione dei pesi per i marcatori utilizzando analisi multivariate.
@@ -483,7 +500,7 @@ Il secondo gruppo è invece comprensivo di soggetti discendenti da rami familiar
 Ciò per confermare le ipotesi presenti in letteratura riguardanti un più basso tasso di invecchiamento per questi individui geneticamente peculiari.
 
 All'interno del progetto inoltre i soggetti GO vengono confrontati con i loro coniugi, definiti \textit{Spouses of Geha Offspring (SGO) } poiché il paragone sistematico dei due gruppi costituisce un'opportunità di prima validazione per i biomarcatori individuati trasversalmente per i soggetti RASIG.
-Ci si aspetta infatti che i GO mostrino in generale un'età biologica inferiore rispetto ai loro coniugi. 
+Ci si aspetta infatti che i GO mostrino in generale un'età biologica inferiore rispetto ai loro coniugi.
 
 Di tutti gli individui analizzati sono stati raccolti dati antropometrici, clinici e demografici in maniera standardizzata.
 Una lista dettagliata di tutti i tipi di dati raccolti per ogni macro-categoria citata sopra è presente nell'articolo in letteratura \cite{markage}.
@@ -493,7 +510,7 @@ A causa della considerevole mole di dati clinici e biochimici  raccolti all'inte
 Per far fronte a questa esigenza ed estrarre un set vali di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
 \begin{itemize}
 \item \textbf{Analisi della consistenza dei dati}
- 
+
 E' stata utilizzata la conoscenza pregressa a proposito di correlazioni fra variabili ipotizzate per giudicare il rapporto del rumore per alcune delle misure usando metodi statistici classici.
 Per una robustezza ancora maggiore alcuni campionamenti sono stati ripetuti nell'arco di sei mesi.
 \item \textbf{Tecniche di Modelling}
@@ -503,7 +520,7 @@ Sono state impiegate tecniche classiche come  l'analisi di regressione ma anche 
 
 \item \textbf{Riduzione della Varianza}
 
-L'obiettivo è quello di ridurre le misure necessarie ma allo stesso tempo ridurre la varianza delle predizioni generate attraverso tecniche di riduzione dimensionale (quali ad esempio analisi della principale componente). 
+L'obiettivo è quello di ridurre le misure necessarie ma allo stesso tempo ridurre la varianza delle predizioni generate attraverso tecniche di riduzione dimensionale (quali ad esempio analisi della principale componente).
 Il machine learning gioca un ruolo fondamentale per questo aspetto.
 
 \item \textbf{Clustering e visualizzazione}
@@ -547,7 +564,7 @@ Econometrica, Novembre 1976,Volume 41, Numero 6
 
 \bibitem{markage}
 Burkle, A. et al.
-\emph{MARK-AGE biomarkers of ageing} 
+\emph{MARK-AGE biomarkers of ageing}
 Mech. Ageing Dev. (2015)
 \end{thebibliography}
 
