@@ -326,7 +326,31 @@ Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere 
 I risultati di seguito riportati si riferiscono ad interpolazioni di tipo lineare, elaborate attraverso metodi di machine learning quali cross-validation e boot-strapping (precedentemente descritti).
 
 \section{Metodi di Elaborazione}
-\subsection {Generazione delle popolazioni e Data Structures}
+
+\subsection{Effetto della troncatura nello spostamento della retta di regressione}
+
+Uno degli effetti primari del troncamento dei dati riguarda lo spostamento della retta di regressione rispetto al best fit effettuato nel caso in cui avessimo a disposizione i dati nella loro interezza.
+Possiamo pensare a questo effetto come se fosse dovuto ad una sorta di \textit{leverage}, ossia ad un fenomeno analogo a quello di una leva che poggia su un fulcro. 
+
+Il metodo dei minimi quadrati ordinario tende infatti a far passare la retta di regressione per il centro dei dati definito come $(\bar{X},\bar{Y})$.
+Poichè dunque il metodo mira alla minimizzazione della distanza verticale tra dati e miglior retta di regressione, i punti agli estremi dell'intervallo di $X$ "spingeranno" o "tireranno" più intensamente sulla leva, che in questo caso è la retta data dal best fit.
+Si può avere quindi che il peso dei dati nell'elaborazione dei risultati non sia omogeneo.
+
+In termini più legati alla statistica, il risultato di ciò è che la \textit{deviazione standard dei residui}  differisca per differenti punti sperimentali di $X$ anche se la deviazione standard dello stimatore è costante.
+
+Un'esemplificazione di questo fenomeno è data dalla figura seguente, ottenuta dall'interpolazione di due popolazioni $X$ e $Y$, la prima generata casualmente con rumore distribuito normalmente e successivamente troncata in un intervallo definito, la seconda generata come $y=2x$ anch'essa con relativo rumore statistico.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.6\linewidth]{leverage}
+\caption{\textit{In figura è rappresentato il best fit per l'intera popolazione, rappresentato dalla retta in rosso, successivamente troncata in modo da interpolare i soli valori presenti nell'intervallo $-2<y<2$, rappresentato dalla zona arancione nello scatterplot.
+Come è evidente, la pendenza della retta di regressione varia notevolmente in relazione all'intervallo di interpolazione.}}
+\label{leverage}
+\end{figure}
+\pagebreak
+Alla luce di questo effetto così consistente, è necessario approfondire l'analisi dell'effetto di troncatura a livello di \textit{modelling}, quantificandone l'inferenza su elaborazioni relative allo \textit{scoring} e al calcolo dei coefficienti per i parametri di regressione.
+
+\subsection{Generazione delle popolazioni e Data Structures}
 
 Per studiare gli effetti della troncatura della variabile dipendente abbiamo utilizzato un dataset modello (\textit{toy model}) le cui relazioni sono note e determinate a priori, in modo da poter valutare esattamente gli effetti dei metodi utilizzati nella stima del miglior modello di regressione e del valore dei suoi parametri.
 
@@ -571,6 +595,11 @@ Come immediatamente risalta dalla \ref{mulregression}, oltre ad un basso valore 
 Quest'ultimo fatto è sintomatico dell'effetto di troncatura deterministica dovuto al criterio di selezione dello span di età, quantificato nella \ref{finalgraph} per il calcolo dei coefficienti.
 
 Si ha in questo modo la perdita delle condizioni di normalità della distribuzione necessaria all'utilizzo del metodo dei mini quadrati nel calcolo del MLE.
+
+Come è evidente poi dalla \ref{leverage}, l'effetto di spostamento della pendenza della retta di regressione è consistente per database troncati deterministicamente.
+Questo fenomeno è immediatamente ravvisabile anche per l'analisi effettuata in \ref{mulregression}, ove emergono nettamente i margini di troncatura dati dal criterio di selezione dello span di età per gli individui campione.
+
+Nella prossima sezione seguirà pertanto il necessario confronto operativo fra metodi classici di regressione e metodi analiticamente corretti.
 
 
 
