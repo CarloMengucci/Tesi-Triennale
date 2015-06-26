@@ -313,8 +313,6 @@ In sintesi, se la curva di learning ha un pendenza considerevole ad una certa di
 
 Il metodo \textit{leave-one-out} ha invece in generale un basso bias ma non è esclusa la possibiità di avere una varianza considerevole.
 
-
-
 \chapter{Valutazione degli effetti di troncatura}
 
 \section{Introduzione al Problema}
@@ -529,6 +527,7 @@ Una lista dettagliata di tutti i tipi di dati raccolti per ogni macro-categoria 
 A causa della considerevole mole di dati clinici e biochimici  raccolti all'interno del progetto, è obbligatoria una rigorosa ed appropriata strategia di analisi e costruzione dei modelli.
 
 Per far fronte a questa esigenza ed estrarre un set vali di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
+\pagebreak
 \begin{itemize}
 \item \textbf{Analisi della consistenza dei dati}
 
@@ -554,6 +553,7 @@ L'individuazione di cluster di questo tipo di parametri aiuta a ridurre la varia
 \end{itemize}
 \pagebreak
 
+\subsection{Un possibile caso analitico}
 Di seguito è riportato un esempio di analisi di regressione utilizzando alcuni dei dati clinici raccolti all'interno del progetto, esplicativo delle più comuni tecniche di elaborazione elencate sopra.
 
 Nello specifico abbiamo la rappresentazione dei risultati delle previsioni a seguito di un'interpolazione con regressione multivariata di due variabili e delle relative interazioni.
@@ -562,9 +562,16 @@ Per raffinare l'indagine è stato introdotto uno script esecutivo per il train-t
 \begin{figure}[!h]
 \centering
 \includegraphics[width=1.2\linewidth]{mulregression}
-\caption{}
+\caption{\textit{Esempio di tecniche analitiche di regressione. Abbiamo in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri. E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica. Nella regressione multivariata, oltre alle due variabili PEF e FEV sono state considerate le reciproche interazioni. E' stato dunque utilizzato  un modello del tipo $Y=AX_1+BX_2+C(X_1*X_2)+D$. Lo scatter plot finale rappresenta la coincidenza tra valori di età previsti, cioè calcolati dal modello, e valori di età noti degli individui. Se questa fosse perfetta, avremmo la tendenza indicata dalla retta in rosso.}}
 \label{mulregression}
 \end{figure}
+
+Come immediatamente risalta dalla \ref{mulregression}, oltre ad un basso valore di $R^2$ per i correlatori, elaborato come media statistica delle occorrenze e con un valore pari a $0.4415\pm0.0004$ indicativo di una scarsa performance predittiva per questo caso analitico, la distribuzione dei residui è molto piccata.
+
+Quest'ultimo fatto è sintomatico dell'effetto di troncatura deterministica dovuto al criterio di selezione dello span di età, quantificato nella \ref{finalgraph}.
+
+Si ha in questo modo la perdita delle condizioni di normalità della distribuzione necessaria all'utilizzo del metodo dei mini quadrati nel calcolo del MLE.
+
 
 
 
