@@ -378,7 +378,7 @@ In questo modo è possibile simulare l'effetto di perdita di dati sensibili a ca
 L'array dei modelli di prova contiene ipotesi riferite ai singoli termini, a tutte le loro possibili combinazioni lineari, alle possibili interazioni a coppie ed a strutture più vicine al modello di generazione e dunque contenenti termini di grado superiore al primo.
 Di seguito sono riportate alcune tabelle di ranking riferite a diverse percentuali di troncatura.
 
-\begin{table}[h!btp]
+\begin{table}[!h]
 \begin{tabular}{lrrrr}
 \toprule
 {} &  entire &  sliced &  entire val. &  sliced val. \\
@@ -400,7 +400,7 @@ y $\sim$ x2              &        -0.005 &        -0.011 &            -0.005 &  
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso senza troncature, per verificare che l'algoritmo restituisse valori consistenti.}}
 \end{table}
 
-\begin{table}[h!btp]
+\begin{table}[!h]
 \begin{tabular}{lrrrr}
 \toprule
 {} &  entire &  sliced &  entire val. &  sliced val. \\
@@ -422,7 +422,7 @@ y$\sim$x3                &        -0.023 &        -0.015 &            -0.001 &  
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è del 66\%.}}
 \end{table}
 
-\begin{table}[h!btp]
+\begin{table}[!h]
 \begin{tabular}{lrrrr}
 \toprule
 {} &  entire &  sliced &  entire val. &  sliced val. \\
@@ -443,6 +443,8 @@ y $\sim$ x2              &        -0.094 &        -0.091 &            -0.038 &  
 \end{tabular}
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è del 33\%}.}
 \end{table}
+\pagebreak
+
 Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.
 Tutto ciò causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati.
 
@@ -456,8 +458,9 @@ Per la stima del bias sui coefficienti è stato necessario valutare il rapporto 
  Le funzioni utilizzate per questa sezione dell'analisi sono le stesse della precedente, con l'aggiunta di un metodo che permette di accedere ai parametri per i singoli termini del modello e di un ciclo di elaborazione statstica che consente  di utilizzare mediane e deviazioni standard per il plotting.
 I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10\%.
 
-\begin{figure}[hbtp]
-\includegraphics[width=\textwidth]{finalgraph}
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\linewidth]{finalgraph}
 \caption{\textit{Plotting della variazione del rapporto fra coefficienti in relazione al taglio del dataset. Come è evidente dal grafico al centro l'errore aumenta considerevolmente per il parametro associato al termine di grado superiore al primo a causa della sua vicinanza allo zero.}}
 \label{finalgraph}
 \end{figure}
@@ -549,6 +552,20 @@ E' infatti ipotizzato che alcuni tipi di misure abbiano una maggior correlazione
 L'individuazione di cluster di questo tipo di parametri aiuta a ridurre la varianza dei modelli generati, in quanto si avranno caratteristiche migliori per i modelli generati da sub sets di dati.
 
 \end{itemize}
+\pagebreak
+
+Di seguito è riportato un esempio di analisi di regressione utilizzando alcuni dei dati clinici raccolti all'interno del progetto, esplicativo delle più comuni tecniche di elaborazione elencate sopra.
+
+Nello specifico abbiamo la rappresentazione dei risultati delle previsioni a seguito di un'interpolazione con regressione multivariata di due variabili e delle relative interazioni.
+Per raffinare l'indagine è stato introdotto uno script esecutivo per il train-test split dei datasets all'interno di un ciclo, in modo da poter ottenere un'elaborazione statistica per correlatori, residui ed errori.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.2\linewidth]{mulregression}
+\caption{}
+\label{mulregression}
+\end{figure}
+
 
 
 
