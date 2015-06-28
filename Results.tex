@@ -343,7 +343,7 @@ Un'esemplificazione di questo fenomeno è data dalla figura seguente, ottenuta d
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.6\linewidth]{leverage}
-\caption{\textit{In figura è rappresentato il best fit per l'intera popolazione, rappresentato dalla retta in rosso, successivamente troncata in modo da interpolare i soli valori presenti nell'intervallo $-2<y<2$, rappresentato dalla zona arancione nello scatterplot.
+\caption{\textit{In figura è rappresentato il best fit per l'intera popolazione, dato dalla retta in rosso, successivamente troncata in modo da interpolare i soli valori presenti nell'intervallo $-2<y<2$, rappresentato dalla zona arancione nello scatterplot.
 Come è evidente, la pendenza della retta di regressione varia notevolmente in relazione all'intervallo di interpolazione.}}
 \label{leverage}
 \end{figure}
@@ -358,6 +358,7 @@ Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere dist
 
 \begin{equation}
 y=x_1+0.1x_1^2+x_2x_3
+\label{population}
 \end{equation}
 
 con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
@@ -393,7 +394,7 @@ Convenzionalmente, ed anche all'interno del programma utilizzato, la matrice del
 L'analisi è dunque strutturata in due parti specifiche per valutare l'effetto di slicing su quelli che sono aspetti essenziali per l'attribuzione della capacità predittiva di un dato metodo: il ranking di modelli ipotetici per $y$, ovviamente noto quello utilizzato per la generazione, e la precisione nella stima dei coefficienti per  le $x$.
 
 \subsection{Effetto della troncatura nell'attribuzione dello score per modelli ipotetici}
-L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di fold pari a 10) per il calcolo della bontà di previsione del regressore fornito,  una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato" tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
+L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di folds pari a 10) per il calcolo della bontà di previsione del regressore fornito,  una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato" tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
 
 In questo modo è possibile simulare l'effetto di perdita di dati sensibili a causa di criteri di selezione dei campioni o in generale l'utilizzo di un range discreto di occorrenze.
 
@@ -465,19 +466,44 @@ y $\sim$ x2              &        -0.094 &        -0.091 &            -0.038 &  
 \end{tabular}
 \caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso la percentuale di utilizzo del database è del 33\%}.}
 \end{table}
+
 \pagebreak
 
 Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.
-Tutto ciò causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati.
+Tutto ciò a causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati \ref{curve}
 
 Come si vede dai risultati, la classifica dei modelli in relazione alla stima del peso dei termini è in generale mantenuta anche per perdite considerevoli di dati mentre la qualità della previsione riferita alle popolazioni tagliate peggiora notevolmente; resta quindi da determinare l'andamento della stima dei coefficienti in relazione alla percentuale di utilizzo dei datasets.
 
 
 \subsection{Effetto della troncatura nella stima dei coefficienti }
 
-Per la stima del bias sui coefficienti è stato necessario valutare il rapporto fra coefficienti calcolati su popolazioni intere e coefficienti ottenuti da quelle  tagliate in corrispondenza all'aumento della percentuale di dati rimossi.
+Per la stima del bias sui coefficienti è stata effettuata come prima analisi uno scatter plot dei pesi dei parametri della popolazione generata considerata interamente, contro quelli ottenuti dopo aver tagliato la suddetta popolazione.
 
- Le funzioni utilizzate per questa sezione dell'analisi sono le stesse della precedente, con l'aggiunta di un metodo che permette di accedere ai parametri per i singoli termini del modello e di un ciclo di elaborazione statstica che consente  di utilizzare mediane e deviazioni standard per il plotting.
+Va tenuto presnte che le funzioni utilizzate per questa sezione dell'elaborazione sono le stesse descritte nelle sezioni  2.2.2 per quanto riguarda generazione della popolazione e nella 2.2.3 relativamente allo script di simulazione della troncatura; avremo dunque che i pesi reali associati alle variabili sono dati dalla \ref{population}.
+
+Di seguito sono riportate due elaborazioni esemplificative, la prima riferita ad un calcolo basato sull'intero database, la seconda avendo asportato il 30\% della popolazione.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\linewidth]{coeffscatter100}
+\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata. 
+In questo caso, non avendo effettuato nessun tipo di taglio, notiamo come nei limiti del rumore statistico simulato i risultati dell'elaborazione siano piuttosto precisi e seguano la tendenza ideale, rappresentata dalla retta in rosso.}}
+\label{coeffscatter100}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.55\linewidth]{coeffscatter70}
+\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata. 
+In questo caso è stato effettuato un taglio del 30\%; come si nota la dispersione dei pesi per i parametri $x1$ e $x2x3$, ai quali per generazione è associato un peso pari a $1.0$, è già in queste condizioni fortemente deviata rispetto al valore vero e di conseguenza alla tendenza ideale.}}
+\label{coeffscatter70}
+\end{figure}
+
+Questo primo tipo di analisi, il cui risultato è una visualizzazione qualitativa dell'effetto di slicing, oltre ad essere rappresentativa del fenomeno descritto nella sezione 2.2.1, ha come conseguenza la necessità di quantificare l'andamento della deviazione nella stima dei parametri proporzionalmente alla percentuale di troncatura.
+
+Il processo utilizzato per  questo tipo di indagine è associato al calcolo della variazione del \textit{rapporto tra coefficiente reale e coefficiente stimato}, in relazioni a diverse percentuali di utilizzo del database.
+
+Operativamente sono stati utilizzati tutti gli scripts descritti precedentemente, con l'aggiunta di un metodo che permette di accedere ai parametri per i singoli termini del modello e di un ciclo di elaborazione statstica che consente  di utilizzare mediane e deviazioni standard per il plotting.
 I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10\%.
 
 \begin{figure}[!h]
@@ -488,7 +514,8 @@ I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10
 \end{figure}
 
 
-Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un andamento lievemente esponenziale e dunque tutt'altro che trascurabile.
+Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un effetto estremamente consistente rappresentato dalla curva in figura.
+
 
 \chapter{Un ambito applicativo: Il Progetto Mark-Age}
 \section{Uno sguardo al Progetto}
