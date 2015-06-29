@@ -517,9 +517,18 @@ I grafici seguenti mostrano l'andamento dei rapporti per steps di slicing del 10
 \label{finalgraph}
 \end{figure}
 
+Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un'inferenza  estremamente consistente rappresentata dalla curva in figura \ref{finalgraph}.
 
-Si può notare come l'effetto della troncatura abbia nelle migliori delle ipotesi, ossia per un'analisi fatta con dati sintetici distribuiti normalmente, un effetto estremamente consistente rappresentato dalla curva in figura.
+\subsection{Conclusioni}
+Alla luce della trattazione svolta in questo capitolo, è chiaro che i metodi comuni di analisi siano soggetti a forti deviazioni dovute ad una combinazione degli effetti descritti precedentemente.
 
+Si hanno infatti oltre a fenomeni di \textit{leverage} facilmente ravvisabili (figura \ref{leverage}) e causa primaria dello spostamento delle rette di regressione, delle propagazioni anche in ambito di modelling e di stima dei coefficienti associati ai parametri.
+
+Seppur in un'analisi del comportamento degli algoritmi canonici in relazione al ranking l'individuazione del corretto modello è generalmente mantenuta, la perdita di capacità predittiva relativa ai valori parametrici proporzionalmente alla perdita dei dati evidenzia la necessità dell'utilizzo di metodi di elaborazione dotati di una maggiore giustificazione analitica.
+
+Nella prossima sezione saranno valutati gli effetti quantificati in questo capitolo in relazione all'applicazione di dati biologici reali.
+
+In questo modo sarà possibile proporre una soluzione al problema dell'utilizzo dei metodi di classici tramite confronto, cercando dei metodi che forniscano performance predittive migliori cercando di mantenere una certa semplicità operativa.
 
 \chapter{Un ambito applicativo: Il Progetto Mark-Age}
 \section{Uno sguardo al Progetto}
