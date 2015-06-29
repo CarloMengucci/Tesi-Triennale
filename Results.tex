@@ -16,8 +16,10 @@
 
 
 \begin{document}
-
+\frontmatter
 \tableofcontents
+\mainmatter
+
 \chapter{Supervised Learning e Metodi Statistici}
 
 \section{Introduzione al Supervised Learning}
@@ -38,9 +40,23 @@ L'accuratezza rappresenta quanto è distorta la predizione; una predizione è ac
 La precisione rappresenta la variabilità (\textit{Variance} in inglese) della predizione; un metodo con alta precisione avrà poca dispersione intorno al proprio valore atteso.
 In generale non è possibile ottimizzare entrambe allo stesso momento, ed è quindi necessario scegliere il metodo più appropriato in base alle proprie esigenze.
 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.45\linewidth]{neighclass}
+\caption{\textit{Esempio di problema di classificazione binaria (Blue=0, Orange=1) elaborato tramite K-Nearest Neighbor Prediction}}
+\label{neighclass}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.45\linewidth]{linclass}
+\caption{\textit{Esempio di problema di classificazione binaria (Blue=0, Orange=1) elaborato tramite interpolazione lineare}}
+\label{linclass}
+\end{figure}
+
 La potenza e la popolarità dei metodi appartenenti alla classe della Maximum Likelihood è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
-Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}).
-Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}.
+Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}) (figura \ref{neighclass}).
+Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}(figura \ref{linclass}).
 
 Per gli scopi del processo utilizzato nella produzione dei risultati relativi a questo lavoro, è opportuna una trattazione analitica più dettagliata di quest'ultimo metodo.
 
@@ -92,7 +108,7 @@ nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione uni
 \end{equation}
 
 il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$. \cite{ESL}
-Qualora $X^TX$ risultasse singolare qualora una delle osservabili contenute in $X$ sarebbe esprimibile come una combinazione lineare di altri osservabili, ovvero $X$ non sarebbe di rango massimo. Anche nel caso in cui questo non fosse esattamente vero, matrici quasi singolari potrebbero comunque dare problemi di convergenza agli algoritmi normalmente utilizzati.
+Qualora $X^TX$ risultasse singolare una delle osservabili contenute in $X$ sarebbe esprimibile come una combinazione lineare di altri osservabili, ovvero $X$ non sarebbe di rango massimo. Anche nel caso in cui questo non fosse esattamente vero, matrici quasi singolari potrebbero comunque dare problemi di convergenza agli algoritmi normalmente utilizzati.
 
 Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da
 \begin{equation}
@@ -339,8 +355,6 @@ Si può avere quindi che il peso dei dati nell'elaborazione dei risultati non si
 
 In termini più legati alla statistica, il risultato di ciò è che la \textit{deviazione standard dei residui}  differisca per differenti punti sperimentali di $X$ anche se la deviazione standard dello stimatore è costante.
 
-Un'esemplificazione di questo fenomeno è data dalla figura seguente, ottenuta dall'interpolazione di due popolazioni $X$ e $Y$, la prima generata casualmente con rumore distribuito normalmente e successivamente troncata in un intervallo definito, la seconda generata come $y=2x$ anch'essa con relativo rumore statistico.
-
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.6\linewidth]{leverage}
@@ -348,7 +362,9 @@ Un'esemplificazione di questo fenomeno è data dalla figura seguente, ottenuta d
 Come è evidente, la pendenza della retta di regressione varia notevolmente in relazione all'intervallo di interpolazione.}}
 \label{leverage}
 \end{figure}
-\pagebreak
+
+Un'esemplificazione di questo fenomeno è data dalla figura \ref{leverage}, ottenuta dall'interpolazione di due popolazioni $X$ e $Y$, la prima generata casualmente con rumore distribuito normalmente e successivamente troncata in un intervallo definito, la seconda generata come $y=2x$ anch'essa con relativo rumore statistico.
+
 Alla luce di questo effetto così consistente, è necessario approfondire l'analisi dell'effetto di troncatura a livello di \textit{modelling}, quantificandone l'inferenza su elaborazioni relative allo \textit{scoring} e al calcolo dei coefficienti per i parametri di regressione.
 
 \subsection{Generazione delle popolazioni e Data Structures}
@@ -526,9 +542,9 @@ Si hanno infatti oltre a fenomeni di \textit{leverage} facilmente ravvisabili (f
 
 Seppur in un'analisi del comportamento degli algoritmi canonici in relazione al ranking l'individuazione del corretto modello è generalmente mantenuta, la perdita di capacità predittiva relativa ai valori parametrici proporzionalmente alla perdita dei dati evidenzia la necessità dell'utilizzo di metodi di elaborazione dotati di una maggiore giustificazione analitica.
 
-Nella prossima sezione saranno valutati gli effetti quantificati in questo capitolo in relazione all'applicazione di dati biologici reali.
+Nella prossima sezione saranno valutati gli effetti quantificati in questo capitolo in relazione all'applicazione a dati biologici reali.
 
-In questo modo sarà possibile proporre una soluzione al problema dell'utilizzo dei metodi di classici tramite confronto, cercando dei metodi che forniscano performance predittive migliori cercando di mantenere una certa semplicità operativa.
+In questo modo sarà possibile proporre una soluzione al problema dell'utilizzo dei metodi di classici tramite confronto, introducendo dei metodi che forniscano performance predittive migliori cercando di mantenere una certa semplicità operativa.
 
 \chapter{Un ambito applicativo: Il Progetto Mark-Age}
 \section{Uno sguardo al Progetto}
@@ -626,7 +642,7 @@ Per raffinare l'indagine è stato introdotto uno script esecutivo per il train-t
 E' stata proposta in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri. 
 E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica. 
 Nella regressione multivariata, oltre alle due variabili PEF e FEV sono state considerate le reciproche interazioni, secondo un modello del tipo $Y=AX_1+BX_2+C(X_1*X_2)+D$.
-
+La popolazione osservata è quella dei soggetti di tipo \textit{RASIG} di entrambi i sessi.
 
 \begin{figure}[!h]
 \centering
@@ -646,40 +662,115 @@ Questo fenomeno è immediatamente ravvisabile anche per l'analisi effettuata in 
 
 Nella prossima sezione seguirà pertanto il necessario confronto operativo fra metodi classici di regressione e metodi analiticamente corretti.
 
+\section{Risultati dell'elaborazione con metodo corretto}
+
+L'elaborazione data dalla Figura \ref{mulregression} evidenzia la presenza degli effetti trattati nel Capitolo 2 anche per dati sperimentali.
+Ciò costituisce una prova a favore della scarsa consistenza delle ipotesi analitiche per i minimi quadrati ordinari nel caso in cui i dati siano troncati.
+
+Va introdotto dunque un metodo in grado di utilizzare una funzione di massima verosimiglianza che tenga conto della troncatura.
+
+Viene utilizzato quindi per l'elaborazione un algoritmo basato sul cosiddetto modello \textit{Tobit}, il quale introduce l'ipotesi di una variabile latente (cioè non osservabile) $\tilde{y_i}$.
+Questa è dipendente dalla $x_i$ tramite un parametro (o vettore) $\beta$, indicativo della correlazione fra le due variabili.
+
+Si suppone inoltre la presenza di un rumore statistico $u_i$ distribuito normalmente; si definisce inoltre la variabile $y_i$, cioè la osservabile, coincidente con la $\tilde{y_i}$ ogniqualvolta la variabile latente sia al di sopra dello zero.
+
+\begin{equation}
+y_i = \begin{cases} 
+    \tilde{y_i} & \textrm{if} \; \tilde{y_i} >0 \\ 
+    0     & \textrm{if} \; \tilde{y_i} \leq 0
+\end{cases}
+\end{equation}
+
+Con $\tilde{y_i}$ data da 
+
+\begin{equation}
+\tilde{y_i} = \beta x_i + u_i, u_i \sim N(0,\sigma^2) \, 
+\end{equation}
+
+Se il parametro $\beta$ fosse stimato tramite una la regressione delle $y_i$ per le $x_i$, l'estimatore dato dai minimi quadrati ordinari risulterebbe inconsistente. 
+
+$\beta$ non va infatti interpretato come l'effetto delle $x_i$ sulle osservabili $y_i$, come nel caso dell'interpretazione lineare classica.
+Esso rappresenta la combinazione della variazione del valore delle $y_i$ sopra il limite, pesata tramite la \textit{probabilità di essere al di sopra del limite}, e la variazione nella probabilità di essere al di sopra del limite, pesata tramite il \textit{valore di aspettazione} delle $y_i$ al di sopra del limite. \cite{tobit}
+
+Vi sono varie classificazioni di modelli tobit, relative alla variazione degli intervalli di taglio; per gli scopi di questo lavoro è stato utilizzato un modello tobit detto di \textit{tipo 1}, definito come
+
+\begin{equation}
+ y_i = \begin{cases} 
+   \tilde{y_i} & \textrm{if} \; y_L<\tilde{y_i}<y_U \\ 
+    y_L   & \textrm{if} \; \tilde{y_i} \leq y_L \\
+    y_U   & \textrm{if} \; \tilde{y_i} \geq y_U
+\end{cases}
+\end{equation}
+
+dove cioè i limiti del taglio $y_L$ e $y_U$ sono valori discreti diversi da zero.
+
+Una sistematica delle soluzioni consistenti per la maximum likelihood di questo e di altri tipi di modelli tobit è presente in letteratura \cite{tobitMLE}.
+
+Per l'elaborazione dei risultati seguenti è quindi stato utilizzato uno script basato su questa particolare variazione del modello, in quanto i campioni del progetto Mark-Age sono stati raccolti all'interno di un range di età definito (35-75 anni), equiparabile dunque ai limiti $y_L$ ed $y_U$.
+
+E' stata scelta come variabile di prova la cosiddetta \textbf{FVC} o \textit{forced vital capacity}, misurata in litri, in quanto nota la sua relativa correlazione con l'età biologica per un soggetto sano.
+La popolazione di campionamento per questa analisi è quella dei \textit{RASIG} di ambo i sessi, essendo comprensiva della maggior parte delle osservazioni all'interno del database del progetto.
+
+Il risultato dell'introduzione del modello tobit è riportato in figura \ref{truncatedml}.
+Notiamo immediatamente come la retta di regressione calcolata con il metodo dei minimi quadrati ordinario sia soggetta ad un forte fenomeno di \textit{leverage}, causato dal troncamento di cui il metodo OLS non tiene conto.
+
+La retta di regressione calcolata tramite la maximum likelihood per il modello tobit, a cui è associato un intervallo di confidenza standard proprio dell'algoritmo, ha una pendenza e dunque un andamento estremamente più plausibile al di fuori dei limiti di taglio (peraltro molto evidenti nello scatter plot). 
+L'effetto di \textit{leverage} è in questo modo compensato.
+
+Si nota inoltre come il metodo OLS preveda dei valori discreti per i parametri di regressione ed il calcolo della deviazione standard, nonostante questi siano comunque elaborati statisticamente (vi sono infatti nello script cicli che permettono di ripetere le analisi ed utilizzare le medie come valori veri).
+
+Il metodo tobit invece, a causa della definizione dei parametri $\beta$ riportata nella trattazione precedente, fornisce per slope, intercetta e deviazione standard degli intervalli probabilistici.
+Confrontando i range con i valori discreti forniti dal metodo OLS appare visibilmente come questi ultimi si distanzino fortemente dalle distribuzioni date dal modello tobit.
+
+E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage} combinata con la perdita di precisione nella stima dei parametri quantificata dalla figura \ref{finalgraph} per il caso dei minimi quadrati ordinari.
 
 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\linewidth]{truncatedml}
+\caption{\textit{I grafici in figura sono rappresentativi del confronto con il metodo classico (OLS).
+L'introduzione di un metodo analiticamente consistente come il tobit evidenzia lo spostamento della retta di regressione dovuto al troncamento, oltre al fatto che i parametri di regressione (Slope,Intercept) e deviazione standard assumono ora la forma di un range probabilistico.}}
+\label{truncatedml}
+\end{figure}
 
+D'altra parte, l'introduzione di un metodo analiticamente giustificato come il tobit permette invece di sopperire alle inferenze sulla performance predittiva del modello lineare descritte e quantificate nel Capitolo 2.
 
-
+\backmatter
 \begin{thebibliography}{99}
 \bibitem{ESL}
 Trevor Hastie, Robert Tibshirani, Jerome Friedman
+
 \emph{The Elements of Statistical Learning}
 Springer ISBN 978-0-387-84858-7
 
 \bibitem{fornasini}
-Paolo Fornasini
+Fornasini, Paolo
+
 \emph{The Uncertainity in Physical Measurement}
 Springer ISBN 978-0-387-78650-6
 
 \bibitem{Mdata}
 Enders, Craig K. (2010)
+
 \emph{Applied Missing Data Analysis } (1st ed.)
  New York
  Guildford Press ISBN 978-1-60623-639-0.
 
 \bibitem{MLE}
 Hazewinkiel, Michel
+
 \emph{"Maximum Likelihood Method", Encyclopedia of Mathematics}
 Springer ISBN 155608000X
 
 \bibitem{TGMLE}
 Johnson, Kotz, Blakrishnan
+
 \emph{Continuos Univariate Distributions, Volume 1}
 Wiley ISBN 0471584959 
 
 \bibitem{econ}
-Takeshi Amemiya
+Amemiya, Takeshi 
+
 \emph{Regression Analysis when the Dependent Variable is Truncated Normal}
 Econometrica, Novembre 1976,Volume 41, Numero 6  DOI 10.2307/1914031
 
@@ -689,8 +780,17 @@ Burkle, A. et al.
 \emph{MARK-AGE biomarkers of ageing} 
 Mech. Ageing Dev. (2015) http://dx.doi.org/10.1016/j.mad.2015.03.006
 
-\emph{MARK-AGE biomarkers of ageing}
-Mech. Ageing Dev. (2015)
+\bibitem{tobit}
+Amemiya, Takeshi 
+
+\emph{Tobit models: A survey}
+ Journal of Econometrics 24 (1–2): 3–61. doi:10.1016/0304-4076(84)90074-5
+
+\bibitem{tobitMLE}
+Schnedler, Wendelin
+
+\emph{Likelihood estimation for censored random vectors}
+Econometric Reviews 24 (2): 195–217. doi:10.1081/ETC-200067925
 
 \end{thebibliography}
 
