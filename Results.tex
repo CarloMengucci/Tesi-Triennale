@@ -30,15 +30,15 @@ Una situazione di questo tipo è detta di \textit{Supervised Learning} in quanto
 Introducendo un linguaggio più vicino al \textit{machine learning}, è possibile schematizzare il problema nel seguente semplice modo: si ha a che fare con un set di variabili in \textit{input}, generalmente misurate o note a priori, le quali influenzano uno o più \textit{outputs}; l'obiettivo è l'utilizzo degli input per la previsione dei valori in output.
 
 \section{Interpolazioni Lineari e Maximum Likelihood}
-Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelyhoood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
+Tra i metodi più ampiamente utilizzati per la costruzione di \textit{learners} troviamo quelli che appartengono alla macrocategoria della Maximum Likelihood, ossia che tendono a massimizzare la cosiddetta funzione di verosimiglianza, definita in base alla probabilità di osservare una data realizzazione campionaria dipendentemente ai valori assunti dai parametri statistici oggetto di stima.
 
 La bontà delle predizioni effettuate con questi metodi può essere quantificata in vari modi.
 Uno dei più importanti è rappresentato dalla distinzione \textit{Precisione} ed \textit{Accuratezza}.
-L'accuratezza rappresenta quanto è distorta la predizione; una predizione è accurata quando il valore attesa della tecnica non ha \textit{Bias}, ovvero è vicino al valore teorico.
+L'accuratezza rappresenta quanto è distorta la predizione; una predizione è accurata quando il valore atteso dato dalla tecnica non ha \textit{Bias}, ovvero è vicino al valore teorico.
 La precisione rappresenta la variabilità (\textit{Variance} in inglese) della predizione; un metodo con alta precisione avrà poca dispersione intorno al proprio valore atteso.
-In generale non è possibile ottimizzare entrambi allo stesso momento, ed è quindi necessario scegliere il metodo più appropriato in base alle proprie esigenze.
+In generale non è possibile ottimizzare entrambe allo stesso momento, ed è quindi necessario scegliere il metodo più appropriato in base alle proprie esigenze.
 
-La potenza e la popolarità dei metodi appartenenti alla suddetta classe è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
+La potenza e la popolarità dei metodi appartenenti alla classe della Maximum Likelihood è dovuta alla relativa semplicità analitica e ad una buona stabilità nella realizzazione delle soluzioni predittive.
 Due ottimi esempi di ciò sono i metodi di \textit{K-nearest Neighbor Prediction} e di \textit{Interpolazione Lineare per Minimi Quadrati (Least Squares)}; il primo fornisce soluzioni precise a partire da assunzioni strutturali poco stringenti, dunque in generale meno stabili (\textit{High Variance, Low Bias}).
 Il secondo presuppone assunzioni strutturali più consistenti, il che conduce ad una stabilità maggiore nei risultati a scapito di una minore precisione (\textit{Low Variance, High Bias)}.
 
@@ -92,7 +92,7 @@ nell'ipotesi in cui $\textbf{X}^T\textbf{X}$ sia non singolare, la soluzione uni
 \end{equation}
 
 il valore interpolato per l'\textit{i}esimo punto di input $x_i$ sarà dunque $\hat{y}(x_i)=x_i^T\hat{\beta}$. Per un arbitrario punto $x_0$ avremo dunque una previsione data da $\hat{y}(x_0)=x_0^T\hat{\beta}$. \cite{ESL}
-Se $X^TX$ risulterebbe singolare qualora una delle osservabili contenute in $X$ fosse esprimibile come una combinazione lineare di altri osservabili, ovvero $X$ non fosse di rango massimo. Anche quando questo non fosse esattamente vero, matrici quasi singolari potrebbero comunque dare problemi di convergenza agli algoritmi normalmente utilizzati.
+Qualora $X^TX$ risultasse singolare qualora una delle osservabili contenute in $X$ sarebbe esprimibile come una combinazione lineare di altri osservabili, ovvero $X$ non sarebbe di rango massimo. Anche nel caso in cui questo non fosse esattamente vero, matrici quasi singolari potrebbero comunque dare problemi di convergenza agli algoritmi normalmente utilizzati.
 
 Nel caso ad esempio in cui la funzione interpolante desiderata debba essere una semplice retta $y=bx+a$ (regressione lineare) vanno determinati univocamente i parametri $a$ e $b$ in modo da soddisfare il problema di minimizzazione generale, che si riduce alla minimizzazione della distanza euclidea tra le due successioni,$y_i$ e $f(x_i)$ data da
 \begin{equation}
@@ -108,7 +108,8 @@ b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}
 a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}
 \end{equation}
 
-Le ipotesi necessarie sono che i residui ($y-f(x)$) seguano una distribuzione normale (o approssimabile come tale), che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ , fanno sì che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
+Le ipotesi necessarie sono che i residui ($y-f(x)$) seguano una distribuzione normale (o approssimabile come tale); che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ . 
+Queste garantiscono che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
 
 Con un ragionamento più generale, assumiamo infatti di dover cercare una correlazione qualsiasi del tipo $Y=\Phi(X)$; essa dipenderà da un certo numero di parametri in modo tale che si possa scrivere
 \begin{equation}
@@ -157,16 +158,16 @@ definita in uno spazio \textit{p-dimensionale}.
 
 Per determinare i $\{\lambda_k\}$ che permettono alla funzione $\Phi(x,\{\lambda_k\})$ di adattarsi meglio ai punti sperimentali è sufficiente una minimizzazione di $\chi^2$ nello spazio \textit{p-dimensionale} dei parametri. \cite{fornasini}
 
-E' importante tenere come questo tipo di trattazione non prescinda mai dal'ipotesi di normalità
+E' importante tenere presente che questo tipo di trattazione non prescinde mai dall'ipotesi di normalità
 
 E' necessario tuttavia per lo scopo finale di questo lavoro, analizzare il comportamento della funzione di massima verosimiglianza in presenza di una distribuzione Gaussiana troncata deterministicamente, a partire dalle generalità del metodo.
 Nella prossima sezione si giustificherà il fatto che i minimi quadrati non siano più ottimali per la previsione nel caso in cui non siano soddisfatte le condizioni strutturali di normalità.
 
-Ciò accade ad esempio quando si ha a che fare come nel caso dell'ambito applicativo di questo lavoro con problemi relativi alla mancanza dei dati \textit{(Missing Data Problems)}.
+Ciò accade ad esempio quando si ha a che fare, come nel caso dell'ambito applicativo di questo lavoro, con problemi relativi alla mancanza dei dati \textit{(Missing Data Problems)}.
 Vi sono molteplici classificazioni dei problemi relativi ai dati mancanti; alla luce dell'analisi che sarà svolta nel successivo capitolo è necessario approfondire il caso in cui la mancanza dei dati sia deterministica, dunque non randomica (\textit{Missing not at Random}).
 
 In generale l'assenza di dati riduce la rappresentatività del campione, inferendo negativamente sui risultati relativi alla popolazione.
-In situazioni dove è previsto questo tipo di problema, è auspicabile utilizzare metodi di analisi \textit{consistenti}, ossia che tengano conto del fatto che piccole violazioni dulle assunzioni strutturali del metodo utilizzato producano un risultato finale comunque poco soggetto a\textit{biases}.
+In situazioni dove è previsto questo tipo di problema, è auspicabile utilizzare metodi di analisi \textit{consistenti}, ossia che tengano conto del fatto che piccole violazioni sulle assunzioni strutturali del metodo utilizzato producano un risultato finale comunque poco soggetto a\textit{biases}.
 
 Alcune delle soluzioni più comuni a casistiche di questo tipo riguardano ad esempio tecniche di \textit{sostituzione (imputations)} dei dati mancanti (si vedano i metodi di \textit{partial imputation, partial deletion}), o tecniche di \textit{interpolazione}, cioè di costruzione di nuovi punti sperimentali all'interno del range discreto di dati acquisiti. \cite{Mdata}
 
@@ -250,7 +251,7 @@ A questo proposito nella sezione successiva seguirà la descrizione dei metodi l
 \subsection{Train-Test Split e Cross Validation}
 Tra le procedure più elementari per un approccio di machine learning alla trattazione dei dati, vi è quello del cosiddetto \textit{train and test splitting}.
 
-Esso consiste nella divisione casuale del del dataset in due subsets: \textit{train set} e \textit{test set}.
+Esso consiste nella divisione casuale del dataset in due subsets: \textit{train set} e \textit{test set}.
 Il train set, come il nome suggerisce, è utilizzato per elaborare i parametri utilizzando il regressore scelto.
 Questi vengono poi applicati e confrontati coi dati presenti nel train set, i quali ovviamente fungendo da dati "non visti" forniscono una stima realistica della performance predittiva del regressore utilizzato, generalmente sotto forma di $R^2$
 
@@ -266,7 +267,7 @@ La cross-validation stima in maniera diretta l'errore atteso per l'analisi rifer
 Err=E[L(Y,\hat{f}(X)]
 \end{equation}
 
-dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente della distribuzione correlata di $X$ e $Y$.
+dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente appartenente alla distribuzione correlata di $X$ e $Y$.
 
 Idealmente, avendo a disposizione un numero sufficientemente grande di dati, potremmo isolare quello che verrà chiamato \textit{validation set} ed utilizzarlo per valutare la performance del modello predittivo utilizzato.
 
@@ -274,7 +275,7 @@ Tuttavia in generale si hanno a disposizione database non molto estesi, per cui 
 
 Per sopperire al problema, si introduce la cosiddetta \textit{K-fold cross validation}, la quale usa una parte dei dati per essere interpolati dal modello scelto e un'altra per testarne le capacità predittive.
 
-SI introduce un splitting dei dati in $K$ parti uguali; per ogni $k-esima$ parte, utilizziamo le rimanenti $k-1$ parti per il fitting del modello e sfruttiamo questa per la stima dell'errore sulla predizione.
+Si introduce uno splitting dei dati in $K$ parti uguali; per ogni $k-esima$ parte, utilizziamo le rimanenti $k-1$ parti per il fitting del modello e sfruttiamo questa per la stima dell'errore sulla predizione.
 Per una descrizione quantitativa si introducono le funzioni seguenti.
 
 Sia $k:\{1,2,...,N\}\longmapsto\{1,...,K\}$ una funzione di indexing che indica la partizione alla quale l'\textit{i-esima} osservazione è assegnata casualmente.
@@ -299,7 +300,7 @@ La funzione $CV(\hat{f}(x,\alpha))$ fornisce una stima della curva di errore sul
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.5\linewidth]{LearningCurve}
-\caption{\textit{Curva di learning ipotetica per un classificatore su una data analisi: si hanno il plot di $1-Err$ contro la dimensione $N$ del training set. Come si può notare vi sono dimensioni dei subsets per cui la cross-validation sovrastima l'errore sulla predizione, a causa della forza pendenza della curva. }}
+\caption{\textit{Curva di learning ipotetica per un classificatore su una data analisi: si hanno il plot di $1-Err$ contro la dimensione $N$ del training set. Come si può notare vi sono dimensioni dei subsets per cui la cross-validation sovrastima l'errore sulla predizione, a causa della forte pendenza della curva. }}
 \label{curve}
 \end{figure}
 
@@ -318,7 +319,7 @@ Il metodo \textit{leave-one-out} ha invece in generale un basso bias ma non è e
 \section{Introduzione al Problema}
 L'utilizzo di database spesso composti su un intervallo discreto di una data popolazione, frequentemente selezionato tramite criteri che possiamo definire "deterministici" (un intervallo di età ad esempio, o in generale un certo range di valori disponibile al momento dell'acquisizione), si contrappone all'esigenza di ottenere un modello di validità generale in termini di coefficienti delle variabili e di interazione fra esse.
 
-Nella sezione precedente è stato inoltre dimostrato come la presenza di un troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido.
+Nella sezione precedente è stato dimostrato come la presenza di una troncatura renda l'utilizzo del metodo dei minimi quadrati (comunque ampiamente utilizzato per elaborazioni di questo tipo) analiticamente non valido.
 Una conseguenza inevitabile di ciò è una propagazione dell'errore anche nell'ambito di attribuzione dello score dei modelli ipotetici, poiché avremo una valutazione della bontà di previsione sotto forma di $R^2$ riferita ad un metodo il cui limite di validità è trasceso.
 
 Non è pertanto possibile elaborare un risultato che abbia la pretesa di essere generale senza tenere conto di un'analisi quantitativa dell'effetto di slicing dei set di dati, che come è dimostrato in seguito potrà fornire una correzione applicabile al modello come stima di un bias per i coefficienti in relazione alla percentuale di dati utilizzati nell'elaborazione.
@@ -329,7 +330,7 @@ I risultati di seguito riportati si riferiscono ad interpolazioni di tipo linear
 
 \subsection{Effetto della troncatura nello spostamento della retta di regressione}
 
-Uno degli effetti primari del troncamento dei dati riguarda lo spostamento della retta di regressione rispetto al best fit effettuato nel caso in cui avessimo a disposizione i dati nella loro interezza.
+Uno degli effetti primari del troncamento dei dati riguarda lo spostamento della retta di regressione rispetto al best fit effettuato nel caso in cui fossero a disposizione i dati nella loro interezza.
 Possiamo pensare a questo effetto come se fosse dovuto ad una sorta di \textit{leverage}, ossia ad un fenomeno analogo a quello di una leva che poggia su un fulcro. 
 
 Il metodo dei minimi quadrati ordinario tende infatti a far passare la retta di regressione per il centro dei dati definito come $(\bar{X},\bar{Y})$.
@@ -352,9 +353,9 @@ Alla luce di questo effetto così consistente, è necessario approfondire l'anal
 
 \subsection{Generazione delle popolazioni e Data Structures}
 
-Per studiare gli effetti della troncatura della variabile dipendente abbiamo utilizzato un dataset modello (\textit{toy model}) le cui relazioni sono note e determinate a priori, in modo da poter valutare esattamente gli effetti dei metodi utilizzati nella stima del miglior modello di regressione e del valore dei suoi parametri.
+Per studiare gli effetti della troncatura della variabile dipendente è stato utilizzato un dataset modello (\textit{toy model}) le cui relazioni sono note e determinate a priori, in modo da poter valutare esattamente gli effetti dei metodi utilizzati nella stima del miglior modello di regressione e del valore dei suoi parametri.
 
-Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ sia composta secondo la relazione
+Le popolazioni sintetiche $x_1$,$x_2$,$x_3$ sono generate in modo da essere distribuite normalmente e la $y$ composta secondo la relazione
 
 \begin{equation}
 y=x_1+0.1x_1^2+x_2x_3
@@ -394,7 +395,10 @@ Convenzionalmente, ed anche all'interno del programma utilizzato, la matrice del
 L'analisi è dunque strutturata in due parti specifiche per valutare l'effetto di slicing su quelli che sono aspetti essenziali per l'attribuzione della capacità predittiva di un dato metodo: il ranking di modelli ipotetici per $y$, ovviamente noto quello utilizzato per la generazione, e la precisione nella stima dei coefficienti per  le $x$.
 
 \subsection{Effetto della troncatura nell'attribuzione dello score per modelli ipotetici}
-L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di folds pari a 10) per il calcolo della bontà di previsione del regressore fornito,  una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato" tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
+L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di folds pari a 10) per il calcolo della bontà di previsione del regressore fornito.
+ 
+In questo caso è stata introdotta una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato".
+Ciò è operativamente realizzabile tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
 
 In questo modo è possibile simulare l'effetto di perdita di dati sensibili a causa di criteri di selezione dei campioni o in generale l'utilizzo di un range discreto di occorrenze.
 
@@ -479,7 +483,7 @@ Come si vede dai risultati, la classifica dei modelli in relazione alla stima de
 
 Per la stima del bias sui coefficienti è stata effettuata come prima analisi uno scatter plot dei pesi dei parametri della popolazione generata considerata interamente, contro quelli ottenuti dopo aver tagliato la suddetta popolazione.
 
-Va tenuto presnte che le funzioni utilizzate per questa sezione dell'elaborazione sono le stesse descritte nelle sezioni  2.2.2 per quanto riguarda generazione della popolazione e nella 2.2.3 relativamente allo script di simulazione della troncatura; avremo dunque che i pesi reali associati alle variabili sono dati dalla \ref{population}.
+Va tenuto presente che le funzioni utilizzate per questa sezione dell'elaborazione sono le stesse descritte nelle sezioni  2.2.2 per quanto riguarda generazione della popolazione e nella 2.2.3 relativamente allo script di simulazione della troncatura; avremo dunque che i pesi reali associati alle variabili sono dati dalla relazione \ref{population}.
 
 Di seguito sono riportate due elaborazioni esemplificative, la prima riferita ad un calcolo basato sull'intero database, la seconda avendo asportato il 30\% della popolazione.
 
@@ -577,7 +581,7 @@ Una lista dettagliata di tutti i tipi di dati raccolti per ogni macro-categoria 
 
 A causa della considerevole mole di dati clinici e biochimici  raccolti all'interno del progetto, è obbligatoria una rigorosa ed appropriata strategia di analisi e costruzione dei modelli.
 
-Per far fronte a questa esigenza ed estrarre un set vali di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
+Per far fronte a questa esigenza ed estrarre un set valido di biomarcatori dell'invecchiamento sono state eseguite le seguenti procedure:
 \pagebreak
 \begin{itemize}
 \item \textbf{Analisi della consistenza dei dati}
@@ -597,7 +601,7 @@ Il machine learning gioca un ruolo fondamentale per questo aspetto.
 \item \textbf{Clustering e visualizzazione}
 
 Ci si aspetta di individuare nuove relazioni fra i dati nell'individuazione della corretta età biologica.
-I metodi di visualizzazione interattiva e di clustering costituiscono un strumento agevole per la scoperta di nuove correlazioni.
+I metodi di visualizzazione interattiva e di clustering costituiscono uno strumento agevole per la scoperta di nuove correlazioni.
 E' infatti ipotizzato che alcuni tipi di misure abbiano una maggior correlazione con l'età biologica rispetto ad altri.
 L'individuazione di cluster di questo tipo di parametri aiuta a ridurre la varianza dei modelli generati, in quanto si avranno caratteristiche migliori per i modelli generati da sub sets di dati.
 
@@ -607,24 +611,29 @@ L'individuazione di cluster di questo tipo di parametri aiuta a ridurre la varia
 \subsection{Un possibile caso analitico}
 Di seguito è riportato un esempio di analisi di regressione utilizzando alcuni dei dati clinici raccolti all'interno del progetto, esplicativo delle più comuni tecniche di elaborazione elencate sopra.
 
-Nello specifico abbiamo la rappresentazione dei risultati delle previsioni a seguito di un'interpolazione con regressione multivariata di due variabili e delle relative interazioni.
+Nello specifico è data la rappresentazione dei risultati delle previsioni a seguito di un'interpolazione con regressione multivariata di due variabili e delle relative interazioni.
 Per raffinare l'indagine è stato introdotto uno script esecutivo per il train-test split dei datasets all'interno di un ciclo, in modo da poter ottenere un'elaborazione statistica per correlatori, residui ed errori.
+
+E' stata proposta in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri. 
+E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica. 
+Nella regressione multivariata, oltre alle due variabili PEF e FEV sono state considerate le reciproche interazioni, secondo un modello del tipo $Y=AX_1+BX_2+C(X_1*X_2)+D$.
+
 
 \begin{figure}[!h]
 \centering
 \includegraphics[width=1.2\linewidth]{mulregression}
-\caption{\textit{Esempio di tecniche analitiche di regressione. Abbiamo in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri. E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica. Nella regressione multivariata, oltre alle due variabili PEF e FEV sono state considerate le reciproche interazioni. E' stato dunque utilizzato  un modello del tipo $Y=AX_1+BX_2+C(X_1*X_2)+D$. Lo scatter plot finale rappresenta la coincidenza tra valori di età previsti, cioè calcolati dal modello, e valori di età noti degli individui. Se questa fosse perfetta, avremmo la tendenza indicata dalla retta in rosso.}}
+\caption{\textit{Lo scatter plot finale rappresenta la coincidenza tra valori di età previsti, cioè calcolati dal modello, e valori di età noti degli individui. Qualora questa fosse perfetta, avremmo la tendenza indicata dalla retta in rosso.}}
 \label{mulregression}
 \end{figure}
 
-Come immediatamente risalta dalla \ref{mulregression}, oltre ad un basso valore di $R^2$ per i correlatori, elaborato come media statistica delle occorrenze e con un valore pari a $0.4415\pm0.0004$ indicativo di una scarsa performance predittiva per questo caso analitico, la distribuzione dei residui è molto piccata.
+Come immediatamente risalta dalla figura \ref{mulregression}, oltre ad un basso valore di $R^2$ per i correlatori, elaborato come media statistica delle occorrenze e con un valore pari a $0.4415\pm0.0004$ indicativo di una scarsa performance predittiva per questo caso analitico, la distribuzione dei residui è molto piccata.
 
-Quest'ultimo fatto è sintomatico dell'effetto di troncatura deterministica dovuto al criterio di selezione dello span di età, quantificato nella \ref{finalgraph} per il calcolo dei coefficienti.
+Quest'ultimo fatto è sintomatico dell'effetto di troncatura deterministica dovuto al criterio di selezione dello span di età, quantificato nel grafico \ref{finalgraph} per il calcolo dei coefficienti.
 
 Si ha in questo modo la perdita delle condizioni di normalità della distribuzione necessaria all'utilizzo del metodo dei mini quadrati nel calcolo del MLE.
 
-Come è evidente poi dalla \ref{leverage}, l'effetto di spostamento della pendenza della retta di regressione è consistente per database troncati deterministicamente.
-Questo fenomeno è immediatamente ravvisabile anche per l'analisi effettuata in \ref{mulregression}, ove emergono nettamente i margini di troncatura dati dal criterio di selezione dello span di età per gli individui campione.
+Come è evidente poi dalla figura \ref{leverage}, l'effetto di spostamento della pendenza della retta di regressione è consistente per database troncati deterministicamente.
+Questo fenomeno è immediatamente ravvisabile anche per l'analisi effettuata in figura \ref{mulregression}, ove emergono nettamente i margini di troncatura dati dal criterio di selezione dello span di età per gli individui campione.
 
 Nella prossima sezione seguirà pertanto il necessario confronto operativo fra metodi classici di regressione e metodi analiticamente corretti.
 
