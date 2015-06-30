@@ -33,10 +33,11 @@ Questo lavoro è relativo all'applicazione dei suddetti metodi, rivolgendo parti
 In questo tipo di studi è molto comune fissare dei requisiti per la partecipazione dei soggetti.
 Nello specifico, nel caso di Mark-Age, i soggetti selezionati appartenevano all'intervallo di età dai 35 ai 75 anni.
 Il progetto ha come obiettivo quello di ottenere un set di \textit{biomarcatori per l'invecchiamento validi} attraverso l'uso di metodi di data learning in analisi di tipo trasversale; elaborando cioè diverse variabili misurate sulle popolazioni esaminate riguardanti più sistemi fisiologici contemporaneamente e senza escludere interazioni locali fra esse.
-Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. Questi sono infatti i più impiegati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
+Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. 
+Questi sono infatti i più impiegati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
 
-In questa tesi ci siamo occupati di caratterizzare gli effetti della troncatura sui modelli di predizione tramite regressione lineare, sia per quanto riguarda la selezione di modelli ottimali, che della stima dei parametri di questi modelli.
-In particolare studiamo questi effetti in un toy model per poterci confrontare con risultati teorici noti, per poi applicare successivamente queste analisi ad alcune variabili del progetto Mark-Age.
+Questa tesi si occupa di caratterizzare gli effetti della troncatura sui modelli di predizione tramite regressione lineare, sia per quanto riguarda la selezione di modelli ottimali, che della stima dei parametri di questi modelli.
+In particolare è svolto lo studio di questi effetti a partire da un \textit{toy model}, ossia un dataset generato sinteticamente, per rendere possibile un  confronto con risultati teorici noti; sarà così possibile applicare successivamente questo tipo di analisi ad alcune variabili del progetto Mark-Age.
 
 La presente trattazione si articola pertanto su tre principali sezioni.
 
@@ -745,7 +746,7 @@ La popolazione di campionamento per questa analisi è quella dei \textit{RASIG} 
 Il risultato dell'introduzione del modello tobit è riportato in figura \ref{truncatedml}.
 Notiamo immediatamente come la retta di regressione calcolata con il metodo dei minimi quadrati ordinario sia soggetta ad un forte fenomeno di \textit{leverage}, causato dal troncamento di cui il metodo OLS non tiene conto.
 
-Nei risultati riportati i parametri sono stimati come distribuzione di probabilità tramite un metodo di cross-validation, ovvero dividendo il dataset in sottoinsiemi, e stimando il risultati per ciascun dataset.
+Il risultato dell'elaborazione fornisce inoltre i parametri  risultanti stimati come distribuzione di probabilità tramite metodi di K-fold-cross-validation, ovvero dividendo il dataset in sottoinsiemi e stimando il risultati elaborati su ciascun subset ottenuto.
 
 La retta di regressione calcolata tramite la maximum likelihood per il modello tobit, a cui è associato un intervallo di confidenza standard proprio dell'algoritmo, ha una pendenza e dunque un andamento estremamente più plausibile al di fuori dei limiti di taglio (peraltro molto evidenti nello scatter plot).
 L'effetto di \textit{leverage} è in questo modo compensato.
@@ -780,7 +781,8 @@ In presenza di una troncatura deterministica, come nel caso del database svilupp
 
 E' stato infatti possibile evidenziare, oltre allo spostamento delle rette di regressione per datasets troncati dovuto a fenomeni di leverage intrinseci nei minimi quadrati, una forte distorsione anche nei parametri di valutazione della qualità del modeling.
 
-Oltre alla perdita di precisione relativa alle dimensioni dei datasets di cui la cross-validation risente in termini di curva di learning, si ha infatti anche la perdita di consistenza dell'$R^2$ come metodo di attribuzione di score per i modelli di prova. Questo metodo infatti assume implicitamente la mancanza di troncature in modo equivalente ai minimi quadrati.
+Oltre alla perdita di precisione relativa alle dimensioni dei datasets di cui la cross-validation risente in termini di curva di learning, si ha infatti anche la perdita di consistenza dell'$R^2$ come metodo di attribuzione di score per i modelli di prova. 
+Questo metodo infatti assume implicitamente la mancanza di troncature in modo analogo ai minimi quadrati.
 
 Analizzando poi le capacità predittive sulla stima dei coefficienti, abbiamo osservato come esse siano fortemente influenzate dalla mancanza di dati, quando questa mancanza sia non casuale.
 Abbiamo inoltre verificato come all'aumentare della troncatura questi effetti siano sempre più evidenti.
@@ -790,15 +792,16 @@ Questi risultati mostrano la necessità di un approccio di modeling a dataset in
 Il progetto Mark-Age, che si propone di elaborare dei modelli per l'individuazione della corretta età biologica a partire dall'analisi di un esteso set di parametri fisiologici e biochimici, è un esempio eclatante di presenza di dataset troncati deterministicamente.
 Il criterio di selezione dello span di età delle popolazioni prese in analisi, rende infatti impossibile l'elaborazione di un modello che abbia validità generale utilizzando metodi analitici che prescindono dalla troncatura dei dati.
 
-Come emerge dal confronto proposto nel Capitolo 3, i risultati ottenuti ipotizzando la validità dei metodi basati sui modelli lineari non tengono conto in maniera corretta dell'andamento del modello elaborato al di fuori dell'intervallo di campionamento delle popolazioni.
+Come emerge dal confronto proposto nel Capitolo 3, i risultati elaborati ipotizzando la validità dei metodi basati sui modelli lineari non tengono conto in maniera corretta dell'andamento del modello utilizzato al di fuori dell'intervallo di campionamento delle popolazioni.
 
-Deriva da ciò non solo l'impossibilità di proporre come generali i risultati ottenuti, in quanto non validi per una percentuale consistente di osservazioni che si otterrebbero prendendo in considerazioni campioni con età al di sotto e al di sopra dei limiti di età delle popolazioni esaminate, ma anche l'insufficienze del riportare stime puntuali dei parametri come risultato dell'analisi. Soprattutto nel caso di modeling che tengano conto delle limitazioni del dataset, sarebbe importante riportare i parametri non come stime puntuali ma in termini di distribuzione di probabilità.
+Deriva da ciò non solo l'impossibilità di proporre come generali i risultati ottenuti, in quanto non validi per una percentuale consistente di osservazioni che si otterrebbero prendendo in considerazioni campioni con età al di sotto e al di sopra dei limiti di età delle popolazioni esaminate, ma anche l'inadeguatezza di riportare stime puntuali dei parametri come risultato dell'analisi. 
+Soprattutto nel caso di modeling che tengano conto delle limitazioni del dataset, sarebbe importante riportare i parametri non come stime puntuali ma in termini di distribuzione di probabilità.
 
-Con l'introduzione invece di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati più consistenti in termini di valore più plausibile e intervalli di confidenza per i parametri da individuare, espressi come distribuzioni di probabilità.
+Con l'introduzione infatti di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati più consistenti in termini di valore più verosimile e intervalli di confidenza per i parametri da individuare, espressi come distribuzioni probabilistiche.
 
 L'individuazione di modelli analiticamente corretti è pertanto necessaria per l'elaborazione di risultati dotati di maggior plausibilità.
-Risulta inoltre chiaro dalle analisi effettuate la necessità di sviluppare non soltanto dei modelli appropriati per la descrizione dei dati, ma anche degli score per la valutazione di questi modelli che rispecchi le ipotesi statistiche opportune.
-Nel caso in analisi, reputiamo necessario lo studio di un nuovo score che possa sostituire il coefficiente di correlazione di Pearson per l'analisi di dati troncati.
+Risulta inoltre chiaro dalle analisi effettuate la necessità di sviluppare non soltanto dei modelli appropriati per la descrizione dei dati, ma anche dei metodi di score per la valutazione di questi ultimi che rispecchino le ipotesi statistiche opportune.
+Nel caso in analisi, risulta pertanto necessario lo studio di un nuovo sistema di score che possa sostituire il coefficiente di correlazione di Pearson per l'analisi di dati troncati.
 
 \backmatter
 \begin{thebibliography}{99}
