@@ -16,15 +16,40 @@
 
 
 \begin{document}
+
 \frontmatter
+
 \tableofcontents
+
+\chapter{Introduzione}
+La scienza delle predizioni, o data learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
+
+In uno scenario in cui le moli dei dati da analizzare sono in continua crescita in opposizione alla richiesta di un tempo di elaborazione sempre inferiore, il miglioramento della qualità delle previsioni diventa il principale ambito di sviluppo e applicazione.
+
+Un numero sempre maggiore di discipline scientifiche si avvicina perciò all'utilizzo di strumenti d'indagine propri della matematica statistica e delle teorie probabilistiche per l'elaborazione di risultati funzionali ai propri scopi, in particolare per quanto riguarda predizioni su valori specifici e creazione di modelli analitici di validità generale.
+
+Questo lavoro è relativo all'applicazione dei suddetti metodi, rivolgendo particolare attenzione a metodi di elaborazione lineari, nell'ambito di studi a carattere biologico come quello del progetto Mark-Age.
+
+Nello specifico la trattazione riguarda il problema dell'elaborazione di risultati consistenti in presenza di dati troncati, fenomeno che interessa anche il database prodotto da Mark-Age a causa del criterio di selezione degli individui campione, prelevati in uno span di età che va dai 35 ai 75 anni.
+
+Il progetto ha come obiettivo quello di ottenere un set di \textit{biomarcatori per l'invecchiamento validi} attraverso l'uso di metodi di data learning in analisi di tipo trasversale; elaborando cioè diverse variabili misurate sulle popolazioni esaminate riguardanti più sistemi fisiologici contemporaneamente e senza escludere interazioni locali fra esse.
+
+Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. Questi sono infatti i più utilizzati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
+
+La presente trattazione si articola pertanto su tre principali sezioni.
+
+Nel Capitolo 1 saranno introdotti e commentati i principali metodi analitici (\textit{Minimi Quadrati, Maximum Likelihood e Cross-Validation}) utilizzati, evidenziando per ognuno di essi proprietà strutturali e consistenza in relazione ai problemi a cui vengono applicati.
+
+Nel Capitolo 2 sarà presentata la procedura utilizzata per la quantificazione dell'effetto di troncatura, elaborata grazie all'uso di datasets sintetici, i cosiddetti \textit{toy models}, generati artificialmente.
+
+Il Capitolo 3 riguarda invece il caso applicativo del progetto Mark-Age, verranno dunque presentati esempi di elaborazioni di dati reali svolte con metodi classici e commentati alla luce dei risultati ottenuti e presentati nel Capitolo 2.
+Verrà infine presentato e commentato un possibile modello correttivo in grado di considerare gli effetti di troncatura; i risultati ottenuti con l'introduzione di quest'ultimo, sempre relativamente ai dati reali, verranno confrontati con quelli ottenuti tramite analisi classica (nel caso specifico tramite regressione lineare e dunque metodo dei minimi quadrati ordinari).
+
 \mainmatter
 
 \chapter{Supervised Learning e Metodi Statistici}
 
 \section{Introduzione al Supervised Learning}
-La scienza delle predizioni, o data learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
-
 In un tipico scenario di apprendimento supervisionato è presente un valore di \textit{outcome}, generalmente quantitativo (come ad esempio una quotazione finanziaria) o categorico (come ad esempio una discriminante situazionale del tipo infarto/non infarto), che si vuole predire in base ad un set \textit{features} (ad esempio dati clinici).
 Avendo a disposizione un \textit{training set} di dati, dei quali è possibile osservare outcome e features per un insieme di oggetti (ad esempio una popolazione), è dunque opportuno costruire un modello predittivo, o \textit{learner}, il quale permetterà di valutare l'outcome per oggetti ignoti.
 
@@ -738,6 +763,8 @@ L'introduzione di un metodo analiticamente consistente come il tobit evidenzia l
 \end{figure}
 
 D'altra parte, l'introduzione di un metodo analiticamente giustificato come il tobit permette invece di sopperire alle inferenze sulla performance predittiva del modello lineare descritte e quantificate nel Capitolo 2.
+
+\chapter{Conclusioni}
 
 \backmatter
 \begin{thebibliography}{99}
