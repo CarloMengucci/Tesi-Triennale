@@ -34,7 +34,7 @@ Nello specifico la trattazione riguarda il problema dell'elaborazione di risulta
 
 Il progetto ha come obiettivo quello di ottenere un set di \textit{biomarcatori per l'invecchiamento validi} attraverso l'uso di metodi di data learning in analisi di tipo trasversale; elaborando cioè diverse variabili misurate sulle popolazioni esaminate riguardanti più sistemi fisiologici contemporaneamente e senza escludere interazioni locali fra esse.
 
-Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. Questi sono infatti i più utilizzati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
+Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. Questi sono infatti i più impiegati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
 
 La presente trattazione si articola pertanto su tre principali sezioni.
 
@@ -765,6 +765,38 @@ L'introduzione di un metodo analiticamente consistente come il tobit evidenzia l
 D'altra parte, l'introduzione di un metodo analiticamente giustificato come il tobit permette invece di sopperire alle inferenze sulla performance predittiva del modello lineare descritte e quantificate nel Capitolo 2.
 
 \chapter{Conclusioni}
+
+Come emerge dalla trattazione fin'ora svolta, i metodi lineari costituiscono un potente strumento d'indagine predittiva soprattutto grazie alla loro relativa semplicità operativa.
+
+Tuttavia vi sono casi in cui le assunzioni strutturali proprie di questi modelli non sussistono, i risultati forniti risentono perciò fortemente di effetti dovuti ad una scarsa, o spesso nulla, giustificazione analitica nel loro utilizzo.
+
+In presenza di una troncatura deterministica, come nel caso del database sviluppato all'interno del progetto Mark-Age, i canonici metodi basati sui minimi quadrati ordinari perdono di validità, generando ripercussioni sulle performance predittive degli algoritmi e dunque sulla stima dei parametri associati alle variabili.
+
+E' stato infatti possibile evidenziare oltre allo spostamento delle rette di regressione per datasets troncati, dovuto principalmente a fenomeni di leverage relativi al comportamento intrinseco dei minimi quadrati, una forte inferenza anche per i risultati relativi all'ambito di modelling.
+
+Oltre alla perdita di precisione relativa alle dimensioni dei datasets di cui la cross-validation risente in termini di curva di learning, si ha infatti anche la perdita di consistenza dell'$R^2$ come metodo di attribuzione di score per i modelli di prova.
+
+Analizzando poi le capacità predittive sulla stima dei coefficienti, risulta immediatamente chiaro come esse siano fortemente influenzate dalla mancanza di dati sensibili.
+
+Questi risultati costituiscono i punti necessari per proporre un approccio a situazioni in cui è presente un troncatura in grado di migliorare la qualità generale delle performances di previsione.
+
+Il caso del progetto Mark-Age, che si propone di elaborare dei modelli per l'individuazione della corretta età biologica a partire dall'analisi di un esteso set di parametri fisiologici e biochimici propri dell'essere umano, è un esempio eclatante di presenza di datasets troncati deterministicamente.
+
+Il criterio di selezione dello span di età delle popolazioni prese in analisi, rende infatti impossibile l'elaborazione di un modello che abbia validità generale utilizzando metodi analitici che prescindono dalla troncatura dei dati.
+
+Come emerge dal confronto proposto nel Capitolo 3, i risultati ottenuti ipotizzando la validità dei metodi basati sui modelli lineari non tengono conto in maniera corretta dell'andamento del modello elaborato al di fuori dell'intervallo di campionamento delle popolazioni.
+
+Deriva da ciò non solo l'impossibilità di proporre come generali i risultati ottenuti, in quanto non validi per una percentuale consistente di osservazioni che si otterrebbero prendendo in considerazioni campioni con età al di sotto e al di sopra dei limiti di età delle popolazioni esaminate, ma anche la difficoltà a proporre dei valori discreti come soluzioni per i parametri.
+
+Con l'introduzione invece di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati estremamente più consistenti in termini di tendenza e stima dei range probabilistici per i parametri da individuare.
+
+L'individuazione di modelli analiticamente corretti è pertanto necessaria per l'elaborazione di risultati dotati di maggior plausibilità, è però fondamentale mantenere per quanto possibile una certa semplicità operativa.
+
+
+
+
+
+
 
 \backmatter
 \begin{thebibliography}{99}
