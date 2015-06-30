@@ -647,11 +647,13 @@ La popolazione osservata è quella dei soggetti di tipo \textit{RASIG} di entram
 \begin{figure}[!h]
 \centering
 \includegraphics[width=1.2\linewidth]{mulregression}
-\caption{\textit{Lo scatter plot finale rappresenta la coincidenza tra valori di età previsti, cioè calcolati dal modello, e valori di età noti degli individui. Qualora questa fosse perfetta, avremmo la tendenza indicata dalla retta in rosso.}}
+\caption{\textit{Lo scatter plot rappresenta la coincidenza tra valori di età previsti, cioè calcolati dal modello, e valori di età noti degli individui. Qualora questa fosse perfetta, avremmo la tendenza indicata dalla retta in rosso.}}
 \label{mulregression}
 \end{figure}
 
 Come immediatamente risalta dalla figura \ref{mulregression}, oltre ad un basso valore di $R^2$ per i correlatori, elaborato come media statistica delle occorrenze e con un valore pari a $0.4415\pm0.0004$ indicativo di una scarsa performance predittiva per questo caso analitico, la distribuzione dei residui è molto piccata.
+
+Un'ulteriore prova della \textit{non-normalità } della distribuzione dei residui è data dal \textit{Q-Q Plot} che riporta in rosso l'andamento teorico nel caso in cui questi avessero una distribuzione perfettamente gaussiana.
 
 Quest'ultimo fatto è sintomatico dell'effetto di troncatura deterministica dovuto al criterio di selezione dello span di età, quantificato nel grafico \ref{finalgraph} per il calcolo dei coefficienti.
 
@@ -728,7 +730,7 @@ E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage}
 \begin{figure}[!h]
 \centering
 \includegraphics[width=1.0\linewidth]{truncatedml}
-\caption{\textit{I grafici in figura sono rappresentativi del confronto con il metodo classico (OLS).
+\caption{\textit{I grafici in figura sono rappresentativi del confronto con il metodo classico (OLS), utilizzando la variabile \textbf{FVC (litri)}.
 L'introduzione di un metodo analiticamente consistente come il tobit evidenzia lo spostamento della retta di regressione dovuto al troncamento, oltre al fatto che i parametri di regressione (Slope,Intercept) e deviazione standard assumono ora la forma di un range probabilistico.}}
 \label{truncatedml}
 \end{figure}
