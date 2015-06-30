@@ -753,12 +753,6 @@ L'effetto di \textit{leverage} è in questo modo compensato.
 
 Si nota inoltre come il metodo OLS preveda dei valori discreti per i parametri di regressione ed il calcolo della deviazione standard, nonostante questi siano comunque elaborati statisticamente (vi sono infatti nello script cicli che permettono di ripetere le analisi ed utilizzare le medie come valori veri).
 
-Il metodo tobit invece, a causa della definizione dei parametri $\beta$ riportata nella trattazione precedente, fornisce per slope, intercetta e deviazione standard degli intervalli probabilistici.
-Confrontando i range con le stime puntuali fornite dal metodo OLS appare visibilmente come questi ultimi si distanzino fortemente dalle distribuzioni date dal modello tobit.
-
-E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage} combinata con la perdita di precisione nella stima dei parametri quantificata dalla figura \ref{finalgraph} per il caso dei minimi quadrati ordinari.
-
-
 \begin{figure}[!h]
 \centering
 \includegraphics[width=1.0\linewidth]{truncatedml}
@@ -766,6 +760,11 @@ E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage}
 L'introduzione di un metodo analiticamente consistente come il tobit evidenzia lo spostamento della retta di regressione dovuto al troncamento, oltre al fatto che i parametri di regressione (Slope,Intercept) e deviazione standard assumono ora la forma di un range probabilistico.}}
 \label{truncatedml}
 \end{figure}
+
+ll metodo tobit invece, a causa della definizione dei parametri $\beta$ riportata nella trattazione precedente, fornisce per slope, intercetta e deviazione standard degli intervalli probabilistici.
+Confrontando i range con le stime puntuali fornite dal metodo OLS appare visibilmente come questi ultimi si distanzino fortemente dalle distribuzioni date dal modello tobit.
+
+E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage} combinata con la perdita di precisione nella stima dei parametri quantificata dalla figura \ref{finalgraph} per il caso dei minimi quadrati ordinari.
 
 D'altra parte, l'introduzione di un metodo analiticamente giustificato come il tobit permette invece di sopperire alle inferenze sulla performance predittiva del modello lineare descritte e quantificate nel Capitolo 2.
 
