@@ -280,10 +280,11 @@ Questo è probabilmente il metodo più semplice ed ampiamente utilizzato per sti
 
 La cross-validation stima in maniera diretta l'errore atteso per l'analisi riferita al subsample (che possiamo assimilare ad un test set) che rimane esterno all'elaborazione dei parametri, definito come
 \begin{equation}
-Err=E[L(Y,\hat{f}(X)]
+Err=E[L(Y,\hat{f}(X))]
 \end{equation}
+dove $L(Y,\hat{f}(X))$ è la funzione di errore.
 
-dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente appartenente alla distribuzione correlata di $X$ e $Y$.
+Si ha dunque \textit{l'errore medio generalizzato} relativo all'applicazione del metodo $\hat{f}(X)$ su un test set indipendente appartenente alla distribuzione correlata di $X$ e $Y$.
 
 Idealmente, avendo a disposizione un numero sufficientemente grande di dati, potremmo isolare quello che verrà chiamato \textit{validation set} ed utilizzarlo per valutare la performance del modello predittivo utilizzato.
 
@@ -378,7 +379,7 @@ y=x_1+0.1x_1^2+x_2x_3
 \label{population}
 \end{equation}
 
-con l'aggiunta del relativo rumore statistico, anch'esso simulato normalmente.
+con l'aggiunta del relativo rumore statistico del tipo $u_i \sim N(0,\sigma^2) $, distribuito cioè normalmente.
 In questo modo è possibile valutare la propagazione dell'effetto non solo per termini di primo grado ma anche per  termini di grado superiore al primo e per termini d'interazione (nel caso presente sotto forma di prodotto).
 
 Lo script genera due popolazioni ciascuna composta da $N=10^3$ individui, che successivamente vengono scalate in base alla percentuale di taglio in analisi fornita come argomento alla funzione. Viene fissata una certa percentuale di dati da troncare agli estremi di una popolazione, e l'altra viene generata con un sottocampionamento che mantenga la stessa numerosità ma che rispetti le ipotesi di normalità delle distribuzioni.
@@ -490,7 +491,8 @@ y $\sim$ x2              &        -0.094 &        -0.091 &            -0.038 &  
 \pagebreak
 
 Si può notare come tendenza generale che la valutazione della performance predittiva fornita dalla cross-validation in riferimento all'elaborazione sulle popolazioni troncate (indicate come \textit{sliced} sulle tabelle) sia sempre piuttosto ottimistica; questo fenomeno però non deve trarre in inganno poiché se andassimo ad analizzare l'errore sulla previsione sarebbe anch'esso sovrastimato.
-Tutto ciò a causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati \ref{curve}
+Tutto ciò a causa dell'utilizzo della \textit{ten-fold cross-validation} e dell'andamento generale della \textit{ curva di learning} che come descritto nel paragrafo precedente dipende fortemente dalle dimensioni dei datasets considerati (figura \ref{curve}).
+Inoltre il metodo di scoring utilizzato dall'algoritmo è l'$R^2$, che assume implicitamente l'assenza di troncature.
 
 Come si vede dai risultati, la classifica dei modelli in relazione alla stima del peso dei termini è in generale mantenuta anche per perdite considerevoli di dati mentre la qualità della previsione riferita alle popolazioni tagliate peggiora notevolmente; resta quindi da determinare l'andamento della stima dei coefficienti in relazione alla percentuale di utilizzo dei datasets.
 
