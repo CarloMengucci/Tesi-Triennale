@@ -22,7 +22,7 @@
 \tableofcontents
 
 \chapter{Introduzione}
-La scienza delle predizioni, o data learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
+La scienza delle predizioni, o machine learning, gioca un ruolo chiave in diversi campi scientifici come ad esempio quello della statistica e dell'intelligenza artificiale, grazie a procedure applicative legate principalmente al cosiddetto data mining.
 
 In uno scenario in cui le moli dei dati da analizzare sono in continua crescita in opposizione alla richiesta di un tempo di elaborazione sempre inferiore, il miglioramento della qualità delle previsioni diventa il principale ambito di sviluppo e applicazione.
 
@@ -30,11 +30,13 @@ Un numero sempre maggiore di discipline scientifiche si avvicina perciò all'uti
 
 Questo lavoro è relativo all'applicazione dei suddetti metodi, rivolgendo particolare attenzione a metodi di elaborazione lineari, nell'ambito di studi a carattere biologico come quello del progetto Mark-Age.
 
-Nello specifico la trattazione riguarda il problema dell'elaborazione di risultati consistenti in presenza di dati troncati, fenomeno che interessa anche il database prodotto da Mark-Age a causa del criterio di selezione degli individui campione, prelevati in uno span di età che va dai 35 ai 75 anni.
-
+In questo tipo di studi è molto comune fissare dei requisiti per la partecipazione dei soggetti.
+Nello specifico, nel caso di Mark-Age, i soggetti selezionati appartenevano all'intervallo di età dai 35 ai 75 anni.
 Il progetto ha come obiettivo quello di ottenere un set di \textit{biomarcatori per l'invecchiamento validi} attraverso l'uso di metodi di data learning in analisi di tipo trasversale; elaborando cioè diverse variabili misurate sulle popolazioni esaminate riguardanti più sistemi fisiologici contemporaneamente e senza escludere interazioni locali fra esse.
-
 Come risulterà evidente, non è però possibile procedere ad un'analisi finalizzata alla creazione di un modello generale senza tenere conto delle inferenze che la troncatura ha sui risultati, soprattutto se si utilizzano metodi lineari ordinari. Questi sono infatti i più impiegati data la loro semplicità operativa e la relativa efficacia predittiva computazionale.
+
+In questa tesi ci siamo occupati di caratterizzare gli effetti della troncatura sui modelli di predizione tramite regressione lineare, sia per quanto riguarda la selezione di modelli ottimali, che della stima dei parametri di questi modelli.
+In particolare studiamo questi effetti in un toy model per poterci confrontare con risultati teorici noti, per poi applicare successivamente queste analisi ad alcune variabili del progetto Mark-Age.
 
 La presente trattazione si articola pertanto su tre principali sezioni.
 
@@ -149,7 +151,7 @@ b=\frac{ N \sum (x_i y_i) - \sum x_i \sum y_i}{N\sum (x_i^2)-(\sum x_i)^2}
 a=\frac{\sum y_i \sum (x_i^2)- \sum (x_i) \sum (x_i y_i)}{N\sum (x_i^2)-(\sum x_i)^2}
 \end{equation}
 
-Le ipotesi necessarie sono che i residui ($y-f(x)$) seguano una distribuzione normale (o approssimabile come tale); che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ . 
+Le ipotesi necessarie sono che i residui ($y-f(x)$) seguano una distribuzione normale (o approssimabile come tale); che sia cioè $x_{i}\sim N(\mu,\sigma^{2}), \forall i$, e che la grandezza $Y$ sia a queste ragionevolmente correlata come $Y=A+BX$ .
 Queste garantiscono che il metodo dei minimi quadrati permetta di calcolare esattamente i parametri $\mu$ e $\sigma$ per la distribuzione, essendo questo la \textit{soluzione analitica} al problema della \textit{maximum likelihood} per una Gaussiana.
 
 Con un ragionamento più generale, assumiamo infatti di dover cercare una correlazione qualsiasi del tipo $Y=\Phi(X)$; essa dipenderà da un certo numero di parametri in modo tale che si possa scrivere
@@ -373,7 +375,7 @@ I risultati di seguito riportati si riferiscono ad interpolazioni di tipo linear
 \subsection{Effetto della troncatura nello spostamento della retta di regressione}
 
 Uno degli effetti primari del troncamento dei dati riguarda lo spostamento della retta di regressione rispetto al best fit effettuato nel caso in cui fossero a disposizione i dati nella loro interezza.
-Possiamo pensare a questo effetto come se fosse dovuto ad una sorta di \textit{leverage}, ossia ad un fenomeno analogo a quello di una leva che poggia su un fulcro. 
+Possiamo pensare a questo effetto come se fosse dovuto ad una sorta di \textit{leverage}, ossia ad un fenomeno analogo a quello di una leva che poggia su un fulcro.
 
 Il metodo dei minimi quadrati ordinario tende infatti a far passare la retta di regressione per il centro dei dati definito come $(\bar{X},\bar{Y})$.
 Poichè dunque il metodo mira alla minimizzazione della distanza verticale tra dati e miglior retta di regressione, i punti agli estremi dell'intervallo di $X$ "spingeranno" o "tireranno" più intensamente sulla leva, che in questo caso è la retta data dal best fit.
@@ -438,7 +440,7 @@ L'analisi è dunque strutturata in due parti specifiche per valutare l'effetto d
 
 \subsection{Effetto della troncatura nell'attribuzione dello score per modelli ipotetici}
 L'algoritmo utilizzato per questo tipo di analisi prevede l'uso di tecniche di Cross Validation (nel caso specifico K-Fold Cross Validation con un numero di folds pari a 10) per il calcolo della bontà di previsione del regressore fornito.
- 
+
 In questo caso è stata introdotta una semplice interpolazione lineare multivariata, con il quale lo script procede ad elaborare un array contenente dei modelli ipotetici, incluso quello utilizzato per la generazione delle $y$ e che può dunque essere preso come riferimento, valutandone un $R^2$ "generalizzato".
 Ciò è operativamente realizzabile tramite una popolazione di validazione selezionata casualmente a cui vengono applicati i vari coefficienti calcolati su stratificazioni di popolazioni di Train e Test diverse per ogni iterazione, anch'esse ottenute tramite random shuffling.
 
@@ -531,7 +533,7 @@ Va tenuto presente che le funzioni utilizzate per questa sezione dell'elaborazio
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.55\linewidth]{coeffscatter100}
-\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata. 
+\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata.
 In questo caso, non avendo effettuato nessun tipo di taglio, notiamo come nei limiti del rumore statistico simulato i risultati dell'elaborazione siano piuttosto precisi e seguano la tendenza ideale, rappresentata dalla retta in rosso.}}
 \label{coeffscatter100}
 \end{figure}
@@ -541,7 +543,7 @@ In questo caso, non avendo effettuato nessun tipo di taglio, notiamo come nei li
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.55\linewidth]{coeffscatter70}
-\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata. 
+\caption{\textit{In figura sono rappresentate le dispersioni attorno ai valori riferiti al peso dei coefficienti della popolazione generata.
 In questo caso è stato effettuato un taglio del 30\%; come si nota la dispersione dei pesi per i parametri $x1$ e $x2x3$, ai quali per generazione è associato un peso pari a $1.0$, è già in queste condizioni fortemente deviata rispetto al valore vero e di conseguenza alla tendenza ideale.}}
 \label{coeffscatter70}
 \end{figure}
@@ -666,8 +668,8 @@ Di seguito è riportato un esempio di analisi di regressione utilizzando alcuni 
 Nello specifico è data la rappresentazione dei risultati delle previsioni a seguito di un'interpolazione con regressione multivariata di due variabili e delle relative interazioni.
 Per raffinare l'indagine è stato introdotto uno script esecutivo per il train-test split dei datasets all'interno di un ciclo, in modo da poter ottenere un'elaborazione statistica per correlatori, residui ed errori.
 
-E' stata proposta in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri. 
-E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica. 
+E' stata proposta in questo caso l'interpolazione lineare di due labels spirometriche, il \textbf{flusso di picco espiratorio (PEF)}, misurato in litri al secondo (l/s) ed il \textbf{volume espiratorio forzato (FEV)}, misurato in litri.
+E' stata utilizzata questa classe di parametri in quanto nota la sua teorica correlazione con l'età biologica.
 Nella regressione multivariata, oltre alle due variabili PEF e FEV sono state considerate le reciproche interazioni, secondo un modello del tipo $Y=AX_1+BX_2+C(X_1*X_2)+D$.
 La popolazione osservata è quella dei soggetti di tipo \textit{RASIG} di entrambi i sessi.
 
@@ -704,19 +706,19 @@ Questa è dipendente dalla $x_i$ tramite un parametro (o vettore) $\beta$, indic
 Si suppone inoltre la presenza di un rumore statistico $u_i$ distribuito normalmente; si definisce inoltre la variabile $y_i$, cioè la osservabile, coincidente con la $\tilde{y_i}$ ogniqualvolta la variabile latente sia al di sopra dello zero.
 
 \begin{equation}
-y_i = \begin{cases} 
-    \tilde{y_i} & \textrm{if} \; \tilde{y_i} >0 \\ 
+y_i = \begin{cases}
+    \tilde{y_i} & \textrm{if} \; \tilde{y_i} >0 \\
     0     & \textrm{if} \; \tilde{y_i} \leq 0
 \end{cases}
 \end{equation}
 
-Con $\tilde{y_i}$ data da 
+Con $\tilde{y_i}$ data da
 
 \begin{equation}
-\tilde{y_i} = \beta x_i + u_i, u_i \sim N(0,\sigma^2) \, 
+\tilde{y_i} = \beta x_i + u_i, u_i \sim N(0,\sigma^2) \,
 \end{equation}
 
-Se il parametro $\beta$ fosse stimato tramite una la regressione delle $y_i$ per le $x_i$, l'estimatore dato dai minimi quadrati ordinari risulterebbe inconsistente. 
+Se il parametro $\beta$ fosse stimato tramite una la regressione delle $y_i$ per le $x_i$, l'estimatore dato dai minimi quadrati ordinari risulterebbe inconsistente.
 
 $\beta$ non va infatti interpretato come l'effetto delle $x_i$ sulle osservabili $y_i$, come nel caso dell'interpretazione lineare classica.
 Esso rappresenta la combinazione della variazione del valore delle $y_i$ sopra il limite, pesata tramite la \textit{probabilità di essere al di sopra del limite}, e la variazione nella probabilità di essere al di sopra del limite, pesata tramite il \textit{valore di aspettazione} delle $y_i$ al di sopra del limite. \cite{tobit}
@@ -724,8 +726,8 @@ Esso rappresenta la combinazione della variazione del valore delle $y_i$ sopra i
 Vi sono varie classificazioni di modelli tobit, relative alla variazione degli intervalli di taglio; per gli scopi di questo lavoro è stato utilizzato un modello tobit detto di \textit{tipo 1}, definito come
 
 \begin{equation}
- y_i = \begin{cases} 
-   \tilde{y_i} & \textrm{if} \; y_L<\tilde{y_i}<y_U \\ 
+ y_i = \begin{cases}
+   \tilde{y_i} & \textrm{if} \; y_L<\tilde{y_i}<y_U \\
     y_L   & \textrm{if} \; \tilde{y_i} \leq y_L \\
     y_U   & \textrm{if} \; \tilde{y_i} \geq y_U
 \end{cases}
@@ -743,13 +745,15 @@ La popolazione di campionamento per questa analisi è quella dei \textit{RASIG} 
 Il risultato dell'introduzione del modello tobit è riportato in figura \ref{truncatedml}.
 Notiamo immediatamente come la retta di regressione calcolata con il metodo dei minimi quadrati ordinario sia soggetta ad un forte fenomeno di \textit{leverage}, causato dal troncamento di cui il metodo OLS non tiene conto.
 
-La retta di regressione calcolata tramite la maximum likelihood per il modello tobit, a cui è associato un intervallo di confidenza standard proprio dell'algoritmo, ha una pendenza e dunque un andamento estremamente più plausibile al di fuori dei limiti di taglio (peraltro molto evidenti nello scatter plot). 
+Nei risultati riportati i parametri sono stimati come distribuzione di probabilità tramite un metodo di cross-validation, ovvero dividendo il dataset in sottoinsiemi, e stimando il risultati per ciascun dataset.
+
+La retta di regressione calcolata tramite la maximum likelihood per il modello tobit, a cui è associato un intervallo di confidenza standard proprio dell'algoritmo, ha una pendenza e dunque un andamento estremamente più plausibile al di fuori dei limiti di taglio (peraltro molto evidenti nello scatter plot).
 L'effetto di \textit{leverage} è in questo modo compensato.
 
 Si nota inoltre come il metodo OLS preveda dei valori discreti per i parametri di regressione ed il calcolo della deviazione standard, nonostante questi siano comunque elaborati statisticamente (vi sono infatti nello script cicli che permettono di ripetere le analisi ed utilizzare le medie come valori veri).
 
 Il metodo tobit invece, a causa della definizione dei parametri $\beta$ riportata nella trattazione precedente, fornisce per slope, intercetta e deviazione standard degli intervalli probabilistici.
-Confrontando i range con i valori discreti forniti dal metodo OLS appare visibilmente come questi ultimi si distanzino fortemente dalle distribuzioni date dal modello tobit.
+Confrontando i range con le stime puntuali fornite dal metodo OLS appare visibilmente come questi ultimi si distanzino fortemente dalle distribuzioni date dal modello tobit.
 
 E' perciò evidente ancora una volta la presenza di effetti di \textit{leverage} combinata con la perdita di precisione nella stima dei parametri quantificata dalla figura \ref{finalgraph} per il caso dei minimi quadrati ordinari.
 
@@ -764,39 +768,37 @@ L'introduzione di un metodo analiticamente consistente come il tobit evidenzia l
 
 D'altra parte, l'introduzione di un metodo analiticamente giustificato come il tobit permette invece di sopperire alle inferenze sulla performance predittiva del modello lineare descritte e quantificate nel Capitolo 2.
 
+
+
 \chapter{Conclusioni}
 
-Come emerge dalla trattazione fin'ora svolta, i metodi lineari costituiscono un potente strumento d'indagine predittiva soprattutto grazie alla loro relativa semplicità operativa.
+I metodi lineari costituiscono un potente strumento d'indagine predittiva soprattutto grazie alla loro relativa semplicità operativa.
+Vi sono tuttavia casi in cui le assunzioni strutturali proprie di questi modelli non sono rispettate;
+i risultati ottenuti sono quindi poco affidabili per via di una scarsa, o spesso nulla, giustificazione analitica nell'utilizzo dei metodi ordinari.
 
-Tuttavia vi sono casi in cui le assunzioni strutturali proprie di questi modelli non sussistono, i risultati forniti risentono perciò fortemente di effetti dovuti ad una scarsa, o spesso nulla, giustificazione analitica nel loro utilizzo.
+In presenza di una troncatura deterministica, come nel caso del database sviluppato all'interno del progetto Mark-Age, i metodi canonici basati sui minimi quadrati perdono di validità, generando ripercussioni sulle performance predittive degli algoritmi e dunque sulla stima dei parametri associati alle variabili.
 
-In presenza di una troncatura deterministica, come nel caso del database sviluppato all'interno del progetto Mark-Age, i canonici metodi basati sui minimi quadrati ordinari perdono di validità, generando ripercussioni sulle performance predittive degli algoritmi e dunque sulla stima dei parametri associati alle variabili.
+E' stato infatti possibile evidenziare, oltre allo spostamento delle rette di regressione per datasets troncati dovuto a fenomeni di leverage intrinseci nei minimi quadrati, una forte distorsione anche nei parametri di valutazione della qualità del modeling.
 
-E' stato infatti possibile evidenziare oltre allo spostamento delle rette di regressione per datasets troncati, dovuto principalmente a fenomeni di leverage relativi al comportamento intrinseco dei minimi quadrati, una forte inferenza anche per i risultati relativi all'ambito di modelling.
+Oltre alla perdita di precisione relativa alle dimensioni dei datasets di cui la cross-validation risente in termini di curva di learning, si ha infatti anche la perdita di consistenza dell'$R^2$ come metodo di attribuzione di score per i modelli di prova. Questo metodo infatti assume implicitamente la mancanza di troncature in modo equivalente ai minimi quadrati.
 
-Oltre alla perdita di precisione relativa alle dimensioni dei datasets di cui la cross-validation risente in termini di curva di learning, si ha infatti anche la perdita di consistenza dell'$R^2$ come metodo di attribuzione di score per i modelli di prova.
+Analizzando poi le capacità predittive sulla stima dei coefficienti, abbiamo osservato come esse siano fortemente influenzate dalla mancanza di dati, quando questa mancanza sia non casuale.
+Abbiamo inoltre verificato come all'aumentare della troncatura questi effetti siano sempre più evidenti.
 
-Analizzando poi le capacità predittive sulla stima dei coefficienti, risulta immediatamente chiaro come esse siano fortemente influenzate dalla mancanza di dati sensibili.
+Questi risultati mostrano la necessità di un approccio di modeling a dataset in cui è presente un troncatura in grado di migliorare la qualità generale delle performances di previsione.
 
-Questi risultati costituiscono i punti necessari per proporre un approccio a situazioni in cui è presente un troncatura in grado di migliorare la qualità generale delle performances di previsione.
-
-Il caso del progetto Mark-Age, che si propone di elaborare dei modelli per l'individuazione della corretta età biologica a partire dall'analisi di un esteso set di parametri fisiologici e biochimici propri dell'essere umano, è un esempio eclatante di presenza di datasets troncati deterministicamente.
-
+Il progetto Mark-Age, che si propone di elaborare dei modelli per l'individuazione della corretta età biologica a partire dall'analisi di un esteso set di parametri fisiologici e biochimici, è un esempio eclatante di presenza di dataset troncati deterministicamente.
 Il criterio di selezione dello span di età delle popolazioni prese in analisi, rende infatti impossibile l'elaborazione di un modello che abbia validità generale utilizzando metodi analitici che prescindono dalla troncatura dei dati.
 
 Come emerge dal confronto proposto nel Capitolo 3, i risultati ottenuti ipotizzando la validità dei metodi basati sui modelli lineari non tengono conto in maniera corretta dell'andamento del modello elaborato al di fuori dell'intervallo di campionamento delle popolazioni.
 
-Deriva da ciò non solo l'impossibilità di proporre come generali i risultati ottenuti, in quanto non validi per una percentuale consistente di osservazioni che si otterrebbero prendendo in considerazioni campioni con età al di sotto e al di sopra dei limiti di età delle popolazioni esaminate, ma anche la difficoltà a proporre dei valori discreti come soluzioni per i parametri.
+Deriva da ciò non solo l'impossibilità di proporre come generali i risultati ottenuti, in quanto non validi per una percentuale consistente di osservazioni che si otterrebbero prendendo in considerazioni campioni con età al di sotto e al di sopra dei limiti di età delle popolazioni esaminate, ma anche l'insufficienze del riportare stime puntuali dei parametri come risultato dell'analisi. Soprattutto nel caso di modeling che tengano conto delle limitazioni del dataset, sarebbe importante riportare i parametri non come stime puntuali ma in termini di distribuzione di probabilità.
 
-Con l'introduzione invece di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati estremamente più consistenti in termini di tendenza e stima dei range probabilistici per i parametri da individuare.
+Con l'introduzione invece di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati più consistenti in termini di valore più plausibile e intervalli di confidenza per i parametri da individuare, espressi come distribuzioni di probabilità.
 
-L'individuazione di modelli analiticamente corretti è pertanto necessaria per l'elaborazione di risultati dotati di maggior plausibilità, è però fondamentale mantenere per quanto possibile una certa semplicità operativa.
-
-
-
-
-
-
+L'individuazione di modelli analiticamente corretti è pertanto necessaria per l'elaborazione di risultati dotati di maggior plausibilità.
+Risulta inoltre chiaro dalle analisi effettuate la necessità di sviluppare non soltanto dei modelli appropriati per la descrizione dei dati, ma anche degli score per la valutazione di questi modelli che rispecchi le ipotesi statistiche opportune.
+Nel caso in analisi, reputiamo necessario lo studio di un nuovo score che possa sostituire il coefficiente di correlazione di Pearson per l'analisi di dati troncati.
 
 \backmatter
 \begin{thebibliography}{99}
@@ -829,10 +831,10 @@ Springer ISBN 155608000X
 Johnson, Kotz, Blakrishnan
 
 \emph{Continuos Univariate Distributions, Volume 1}
-Wiley ISBN 0471584959 
+Wiley ISBN 0471584959
 
 \bibitem{econ}
-Amemiya, Takeshi 
+Amemiya, Takeshi
 
 \emph{Regression Analysis when the Dependent Variable is Truncated Normal}
 Econometrica, Novembre 1976,Volume 41, Numero 6  DOI 10.2307/1914031
@@ -840,11 +842,11 @@ Econometrica, Novembre 1976,Volume 41, Numero 6  DOI 10.2307/1914031
 \bibitem{markage}
 Burkle, A. et al.
 
-\emph{MARK-AGE biomarkers of ageing} 
+\emph{MARK-AGE biomarkers of ageing}
 Mech. Ageing Dev. (2015) http://dx.doi.org/10.1016/j.mad.2015.03.006
 
 \bibitem{tobit}
-Amemiya, Takeshi 
+Amemiya, Takeshi
 
 \emph{Tobit models: A survey}
  Journal of Econometrics 24 (1–2): 3–61. doi:10.1016/0304-4076(84)90074-5
