@@ -469,7 +469,8 @@ y$\sim$x3                &        -0.009 &        -0.011 &            -0.001 &  
 y $\sim$ x2              &        -0.005 &        -0.011 &            -0.005 &            -0.002 \\
 \bottomrule
 \end{tabular}
-\caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione, in questo caso senza troncature, per verificare che l'algoritmo restituisse valori consistenti.}}
+\caption{\textit{La tabella contiene gli scores relativi alle prove per popolazioni intere e tagliate ed i corrispondenti punteggi  ottenuti su popolazioni di validazione. 
+In questo caso non è stato effettuata nessuna troncatura, per verificare che l'algoritmo restituisse valori consistenti.}}
 \end{table}
 
 \begin{table}[!h]
@@ -595,7 +596,7 @@ Inoltre è da considerare la trasversalità dei processi che avvengono tra molte
 
 I meccanismi sottesi al processo, seppur originari del livello molecolare non escludono tassi di invecchiamento diversi all'interno della stessa specie animale, come ampiamente dimostrato; fenomeno da cui anche la specie umana non è esente. In altri termini, vi è differenza tra \textit{età biologica} ed \textit{età cronologica}.
 
-La stima classica del tasso di invecchiamento è basata sull'analisi della \textit{curva di mortalità} (nota anche come funzione di Gompetz) per le popolazioni.
+La stima classica del tasso di invecchiamento è basata sull'analisi della \textit{curva di mortalità} (nota anche come funzione di Gompertz) per le popolazioni.
 
 Questo però comporta che gli individui debbano essere monitorati fino alla conclusione delle proprie vite per determinare lo stato di invecchiamento biologico per ogni punto temporale della curva.
 
@@ -736,7 +737,7 @@ Vi sono varie classificazioni di modelli tobit, relative alla variazione degli i
 
 dove cioè i limiti del taglio $y_L$ e $y_U$ sono valori discreti diversi da zero.
 
-Una sistematica delle soluzioni consistenti per la maximum likelihood di questo e di altri tipi di modelli tobit è presente in letteratura \cite{tobitMLE}.
+Una trattazione delle soluzioni consistenti per la maximum likelihood di questo e di altri tipi di modelli tobit è presente in letteratura \cite{tobitMLE}.
 
 Per l'elaborazione dei risultati seguenti è quindi stato utilizzato uno script basato su questa particolare variazione del modello, in quanto i campioni del progetto Mark-Age sono stati raccolti all'interno di un range di età definito (35-75 anni), equiparabile dunque ai limiti $y_L$ ed $y_U$.
 
@@ -797,6 +798,8 @@ Deriva da ciò non solo l'impossibilità di proporre come generali i risultati o
 Soprattutto nel caso di modeling che tengano conto delle limitazioni del dataset, sarebbe importante riportare i parametri non come stime puntuali ma in termini di distribuzione di probabilità.
 
 Con l'introduzione infatti di un metodo che tenga conto dell'effetto di troncatura, si ottengono risultati più consistenti in termini di valore più verosimile e intervalli di confidenza per i parametri da individuare, espressi come distribuzioni probabilistiche.
+
+Nel caso del presente lavoro è stato dunque introdotto un metodo di tipo \textit{tobit} per l'elaborazione, all'interno di un script funzionale a procedure di cross-validation.
 
 L'individuazione di modelli analiticamente corretti è pertanto necessaria per l'elaborazione di risultati dotati di maggior plausibilità.
 Risulta inoltre chiaro dalle analisi effettuate la necessità di sviluppare non soltanto dei modelli appropriati per la descrizione dei dati, ma anche dei metodi di score per la valutazione di questi ultimi che rispecchino le ipotesi statistiche opportune.
